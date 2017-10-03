@@ -14,9 +14,15 @@ public:
     explicit Individual(int size);
     void toString();
     void evaluateFitness();
+    int getFitness();
+    int getSize();
+    void crossover(Individual *pIndividual);
+    void mutate();
+    int* getChromosomes();
+    int* setChromosomes(int* chromosome);
 
 private:
-    byte* chromosome;
+    int* chromosome;
     int size;
     int fitness;
 };

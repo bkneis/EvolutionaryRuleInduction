@@ -8,19 +8,14 @@
 #include <chrono>
 #include <cstring>
 #include "Individual.h"
+#include "randomUtil.h"
+#include "config.h"
 
 Individual::Individual(int size) {
-  this->chromosome = new byte[size];
+  this->chromosome = new int[size];
   this->size = size;
-
-  // Create random number generator using C++ 11 random lib over using rand
-  // see https://channel9.msdn.com/Events/GoingNative/2013/rand-Considered-Harmful
-  int seed1 = std::chrono::system_clock::now().time_since_epoch().count();
-  std::default_random_engine gen(seed1);
-  std::uniform_int_distribution<int> dist(0, 1);
-
   for (int i = 0; i < size; i++) {
-    this->chromosome[i] = (byte) dist(gen);
+    this->chromosome[i] = static_cast<byte>(rand() % 2);
   }
 }
 
@@ -29,19 +24,49 @@ void Individual::toString() {
   for (int i = 0; i < this->size; i++) {
     std::cout << unsigned(this->chromosome[i]);
   }
-  this->evaluateFitness();
-  std::cout << " with fitness " << this->fitness;
+  std::cout << " with fitness " << this->getFitness();
 }
 
 void Individual::evaluateFitness() {
+}
+
+int Individual::getFitness() {
   this->fitness = 0;
-  int j = 0;
-  for (int i = this->size - 1; i >= 0; i--) {
-    if (this->chromosome[i] == 0x01) {
-      this->fitness += pow(2, j);
+  for (int i = 0; i < this->size; i++) {
+    if (this->chromosome[i] == 1) {
+      this->fitness++;
     }
-    j++;
   }
+  return this->fitness;
+}
+
+int Individual::getSize() {
+  return this->size;
+}
+
+void Individual::crossover(Individual* partner) {
+  int point = getRandomNumber(0, NUMBER_OF_CHROMOSONES);
+  auto partnerChromosomes = partner->getChromosomes();
+  int tempBit;
+  for (int i = point; i < this->size; i++) {
+    tempBit = this->chromosome[i];
+    this->chromosome[i] = partnerChromosomes[i];
+    partnerChromosomes[i] = tempBit;
+  }
+  partner->setChromosomes(partnerChromosomes);
+}
+
+void Individual::mutate() {
+  int point = getRandomNumber(0, NUMBER_OF_CHROMOSONES);
+  this->chromosome[point] = 1 - this->chromosome[point];
+}
+
+int* Individual::getChromosomes() {
+  return this->chromosome;
+}
+
+int* Individual::setChromosomes(int* chromosome) {
+  this->chromosome = chromosome;
 }
 
 
