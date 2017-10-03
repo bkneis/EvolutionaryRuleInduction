@@ -12,12 +12,20 @@ class Population {
 
 public:
     std::vector<Individual*> individuals;
-    explicit Population(int size);
-    void getMaxFitness();
+    Population* selectParents();
+    Population* crossover();
+    Population* mutate();
+    Population* printStats();
+    int getMaxFitness();
+    int getMeanFitness();
     void toString();
+    void generate(int size);
+    void addIndividual(Individual* individual);
+    Population* calcStats();
 
 private:
-    void generate(int size);
+    int maxFitness;
+    int meanFitness;
 };
 
 
