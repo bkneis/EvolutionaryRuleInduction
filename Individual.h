@@ -5,6 +5,7 @@
 #ifndef GENETICALGORITHM_INDIVIDUAL_H
 #define GENETICALGORITHM_INDIVIDUAL_H
 
+typedef unsigned char byte;
 
 #include <stdint-gcc.h>
 
@@ -15,7 +16,7 @@ public:
     void evaluateFitness();
 
 private:
-    uint8_t * chromosome;
+    byte* chromosome;
     int size;
     int fitness;
 };

@@ -6,10 +6,11 @@
 #include <functional>
 #include <iostream>
 #include <chrono>
+#include <cstring>
 #include "Individual.h"
 
 Individual::Individual(int size) {
-  this->chromosome = new uint8_t[size];
+  this->chromosome = new byte[size];
   this->size = size;
 
   // Create random number generator using C++ 11 random lib over using rand
@@ -19,7 +20,7 @@ Individual::Individual(int size) {
   std::uniform_int_distribution<int> dist(0, 1);
 
   for (int i = 0; i < size; i++) {
-    this->chromosome[i] = (uint8_t ) (dist(gen));
+    this->chromosome[i] = (byte) dist(gen);
   }
 }
 
@@ -28,8 +29,19 @@ void Individual::toString() {
   for (int i = 0; i < this->size; i++) {
     std::cout << unsigned(this->chromosome[i]);
   }
+  this->evaluateFitness();
+  std::cout << " with fitness " << this->fitness;
 }
 
 void Individual::evaluateFitness() {
-
+  this->fitness = 0;
+  int j = 0;
+  for (int i = this->size - 1; i >= 0; i--) {
+    if (this->chromosome[i] == 0x01) {
+      this->fitness += pow(2, j);
+    }
+    j++;
+  }
 }
+
+
