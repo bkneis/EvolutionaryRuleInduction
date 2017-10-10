@@ -5,9 +5,11 @@ typedef unsigned char byte;
 
 #include <stdint-gcc.h>
 
+enum fitnessStrategy { COUNTING_ONES, SQUARED };
+
 class Individual {
 public:
-    explicit Individual(int size);
+    explicit Individual(int size, fitnessStrategy strategy);
     void toString();
     int getFitness();
     int getSize();
@@ -17,9 +19,12 @@ public:
     int* setChromosomes(int* chromosome);
 
 private:
+    int getFitnessCountingOnes();
+    int getFitnessSquared();
     int* chromosome;
     int size;
     int fitness;
+    fitnessStrategy fitnessStrat;
 };
 
 

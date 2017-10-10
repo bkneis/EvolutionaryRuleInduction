@@ -7,7 +7,7 @@
 
 void Population::generate(int size) {
     for (int i = 0; i < size; i++) {
-        this->individuals.push_back(new Individual(NUMBER_OF_CHROMOSONES));
+        this->individuals.push_back(new Individual(NUMBER_OF_CHROMOSONES, COUNTING_ONES));
     }
 }
 
@@ -121,5 +121,5 @@ Population* Population::replaceWeakestIndividual(Individual* fittest) {
             weakest = i;
         }
     }
-    this->individuals.at(weakest) = fittest;
+    this->individuals.insert(this->individuals.begin() + weakest, fittest);
 }
