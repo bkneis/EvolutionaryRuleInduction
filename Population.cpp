@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include "Population.h"
 #include "config.h"
 #include "randomUtil.h"
@@ -56,6 +58,20 @@ Population *Population::crossover() {
 
 Population *Population::printStats() {
     this->calcStats();
+
+    std::ofstream resultsFile;
+    time_t now = time(0);
+    char* dt = ctime(&now);
+    std::ostringstream path;
+    path << "../data/results_" << dt << ".csv";
+    resultsFile.open(path.str(), std::ios_base::app);
+
+    if (resultsFile.is_open()) {
+        resultsFile << this->getMaxFitness() << "," << this->getMeanFitness() << "\n";
+        resultsFile.close();
+    } else {
+        std::cout << "Could not write to the results file \n";
+    }
     std::cout << "The best individual in the population has fitness " << this->getMaxFitness() << "\n";
     std::cout << "The mean fitness for the population is " << this->getMeanFitness() << "\n";
     return this;
