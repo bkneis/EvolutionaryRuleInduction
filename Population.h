@@ -17,7 +17,7 @@ public:
     Population* selectParents();
     Population* crossover();
     Population* mutate();
-    Population* printStats();
+    Population* printStats(std::string path);
     Individual* getFitestIndividual();
     Population* replaceWeakestIndividual(Individual* fittest);
 

@@ -56,15 +56,11 @@ Population *Population::crossover() {
     return this;
 }
 
-Population *Population::printStats() {
+Population *Population::printStats(std::string path) {
     this->calcStats();
 
     std::ofstream resultsFile;
-    time_t now = time(0);
-    char* dt = ctime(&now);
-    std::ostringstream path;
-    path << "../data/results_" << dt << ".csv";
-    resultsFile.open(path.str(), std::ios_base::app);
+    resultsFile.open(path, std::ios_base::app);
 
     if (resultsFile.is_open()) {
         resultsFile << this->getMaxFitness() << "," << this->getMeanFitness() << "\n";
