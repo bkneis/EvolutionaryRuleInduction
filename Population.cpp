@@ -89,7 +89,6 @@ Population* Population::calcStats() {
 }
 
 Individual *Population::getFitestIndividual() {
-    std::cout << "test";
     auto fittest = this->individuals.at(0);
     int fitness;
     for (auto &individual : this->individuals) {
@@ -102,13 +101,13 @@ Individual *Population::getFitestIndividual() {
 }
 
 Population* Population::replaceWeakestIndividual(Individual* fittest) {
-    auto weakest = this->individuals.at(0);
+    unsigned long weakest = 0;
     int fitness;
-    for (auto &individual : this->individuals) {
-        fitness = individual->getFitness();
-        if (fitness < weakest->getFitness()) {
-            weakest = individual;
+    for (unsigned long i = 0; i < this->individuals.size(); i++) {
+        fitness = this->individuals.at(i)->getFitness();
+        if (fitness < this->individuals.at(weakest)->getFitness()) {
+            weakest = i;
         }
     }
-    weakest = fittest;
+    this->individuals.at(weakest) = fittest;
 }
