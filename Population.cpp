@@ -1,7 +1,3 @@
-//
-// Created by arthur on 29/09/17.
-//
-
 #include <iostream>
 #include "Population.h"
 #include "config.h"
@@ -90,4 +86,29 @@ Population* Population::calcStats() {
     }
     this->meanFitness = static_cast<int>(total / this->individuals.size());
     return this;
+}
+
+Individual *Population::getFitestIndividual() {
+    std::cout << "test";
+    auto fittest = this->individuals.at(0);
+    int fitness;
+    for (auto &individual : this->individuals) {
+        fitness = individual->getFitness();
+        if (fitness > fittest->getFitness()) {
+            fittest = individual;
+        }
+    }
+    return fittest;
+}
+
+Population* Population::replaceWeakestIndividual(Individual* fittest) {
+    auto weakest = this->individuals.at(0);
+    int fitness;
+    for (auto &individual : this->individuals) {
+        fitness = individual->getFitness();
+        if (fitness < weakest->getFitness()) {
+            weakest = individual;
+        }
+    }
+    weakest = fittest;
 }

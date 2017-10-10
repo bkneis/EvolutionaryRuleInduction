@@ -1,7 +1,3 @@
-//
-// Created by arthur on 03/10/17.
-//
-
 #ifndef GENETICALGORITHM_RANDOMUTIL_H
 #define GENETICALGORITHM_RANDOMUTIL_H
 

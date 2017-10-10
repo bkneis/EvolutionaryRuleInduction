@@ -1,24 +1,28 @@
-
 #include <cstdlib>
 #include <iostream>
 #include "Population.h"
 #include "config.h"
-#include "randomUtil.h"
 
 int main() {
     /* initialize random seed: */
     srand (time(NULL));
 
-    auto * population = new Population();
+    auto* population = new Population();
+    auto* tempPopulation = new Population();
     population->generate(NUMBER_OF_CHROMOSONES);
 
     for (int i = 0; i < NUMBER_OF_GENERATIONS; i++) {
-        std::cout << "Generation: " << i << "\n";
-        population = population
-                ->selectParents()
-                ->crossover()
-                ->mutate()
-                ->printStats();
+        std::cout << "Generation: " << i + 1 << "\n";
+        tempPopulation = population
+                ->selectParents() // First, let's perform tournament selection and create a new population of the fittest
+                ->crossover() // Now, pair the individuals and perform crossover
+                ->mutate() // Once cross overed, run mutation to randomly flip bits
+                ->printStats(); // Print stats for logging purposes
+
+        // So that we can ensure the strongest of the previous generation survive, lets copy it over from the previous selection
+        tempPopulation->replaceWeakestIndividual(population->getFitestIndividual());
+        // Assign the new population to the original
+        population = tempPopulation;
     }
     return 0;
 }

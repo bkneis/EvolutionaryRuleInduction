@@ -1,8 +1,3 @@
-//
-// Created by arthur on 29/09/17.
-//
-
-#include <random>
 #include <functional>
 #include <iostream>
 #include <chrono>
@@ -25,9 +20,6 @@ void Individual::toString() {
     std::cout << unsigned(this->chromosome[i]);
   }
   std::cout << " with fitness " << this->getFitness();
-}
-
-void Individual::evaluateFitness() {
 }
 
 int Individual::getFitness() {
