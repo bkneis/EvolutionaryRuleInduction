@@ -52,7 +52,9 @@ int main() {
 
         // Assign the new population to the original
         population = tempPopulation;
+        // Replace the weakest individual with the strongest so the max never reduces
         population->replaceWeakestIndividual(fittestIndividual);
+        // Print the populations fitness stats
         population->printStats(path.str());
     }
 
