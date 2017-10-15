@@ -130,7 +130,7 @@ Individual *Population::cloneFittestIndividual() {
     int size = fittestIndividual->getSize();
     auto fittestChromosomes = new int[size];
     memcpy(fittestChromosomes, fittestIndividual->getChromosomes(), size * sizeof(int));
-    fittestIndividual = new Individual(size, COUNTING_ONES);
+    fittestIndividual = new Individual(size, fittestIndividual->getFitnessStrategy());
     fittestIndividual->setChromosomes(fittestChromosomes);
     return fittestIndividual;
 }

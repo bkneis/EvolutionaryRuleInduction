@@ -17,6 +17,7 @@ public:
     void mutate();
     int* getChromosomes();
     int* setChromosomes(int* chromosome);
+    fitnessStrategy getFitnessStrategy();
 
 private:
     int getFitnessCountingOnes();

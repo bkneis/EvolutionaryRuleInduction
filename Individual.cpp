@@ -84,4 +84,8 @@ int Individual::getFitnessCountingOnes() {
   return this->fitness;
 }
 
+fitnessStrategy Individual::getFitnessStrategy() {
+    return this->fitnessStrat;
+}
+
 
