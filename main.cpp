@@ -50,12 +50,12 @@ int main() {
     }
 
     // Create main population that we will be generating
-    auto* population = new Population<>();
+    auto* population = new Population<unsigned long>();
 
     // Temp population to store values of population of a single generation
-    Population<>* tempPopulation;
+    Population<unsigned long>* tempPopulation;
 
-    Individual<>* fittestIndividual;
+    Individual<unsigned long>* fittestIndividual;
 
     // Seed the first population randomly
     population->generate(SIZE_OF_POPULATION);
