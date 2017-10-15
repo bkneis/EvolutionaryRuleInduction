@@ -100,10 +100,10 @@ Population* Population::calcStats() {
     return this;
 }
 
-Individual *Population::getFitestIndividual() {
+Individual* Population::getFitestIndividual() {
     auto fittest = this->individuals.at(0);
     int fitness;
-    for (auto &individual : this->individuals) {
+    for (auto individual : this->individuals) {
         fitness = individual->getFitness();
         if (fitness > fittest->getFitness()) {
             fittest = individual;

@@ -44,7 +44,7 @@ int main() {
     // Loop over the number of generations and evolve the GA
     for (int i = 0; i < NUMBER_OF_GENERATIONS; i++) {
         std::cout << "Generation: " << i + 1 << "\n";
-        fittestIndividual = population->getFitestIndividual();
+        Individual fittestIndividual = *population->getFitestIndividual();
         tempPopulation = population
                 ->selectParents() // First, let's perform tournament selection and create a new population of the fittest
                 ->crossover() // Now, pair the individuals and perform crossover
