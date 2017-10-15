@@ -1,8 +1,6 @@
 #ifndef GENETICALGORITHM_INDIVIDUAL_H
 #define GENETICALGORITHM_INDIVIDUAL_H
 
-typedef unsigned char byte;
-
 #include <stdint-gcc.h>
 
 enum fitnessStrategy { COUNTING_ONES, SQUARED };

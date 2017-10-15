@@ -37,9 +37,9 @@ Population* Population::selectParents() {
 }
 
 Population *Population::mutate() {
-    for (int i = 0; i < this->individuals.size() - 1; i++) {
+    for (unsigned long i = 0; i < this->individuals.size() - 1; i++) {
         if (getRandomNumber(1, 100) <= PROBABILITY_OF_MUTATION) {
-            auto individual = this->individuals.at(static_cast<unsigned long>(i));
+            auto individual = this->individuals.at(i);
             individual->mutate();
         }
     }
@@ -47,10 +47,10 @@ Population *Population::mutate() {
 }
 
 Population *Population::crossover() {
-    for (int i = 0; i < this->individuals.size() - 2; i += 2) {
+    for (unsigned long i = 0; i < this->individuals.size() - 2; i += 2) {
         if (getRandomNumber(1, 100) <= PROBABILITY_OF_CROSSOVER) {
-            auto parent1 = this->individuals.at(static_cast<unsigned long>(i));
-            auto parent2 = this->individuals.at(static_cast<unsigned long>(i + 1));
+            auto parent1 = this->individuals.at(i);
+            auto parent2 = this->individuals.at(i + 1);
             parent1->crossover(parent2);
         }
     }

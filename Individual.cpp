@@ -12,7 +12,7 @@ Individual::Individual(int size, fitnessStrategy strategy) {
   this->fitnessStrat = strategy;
   this->size = size;
   for (int i = 0; i < size; i++) {
-    this->chromosome[i] = static_cast<byte>(rand() % 2);
+    this->chromosome[i] = getRandomNumber(0, 1);
   }
 }
 
