@@ -3,8 +3,9 @@
 
 #include <cstdlib>
 
-inline int getRandomNumber(int min, int max) {
-    return rand() % (max + 1) + min;
+template <typename T = int>
+inline T getRandomNumber(int min, int max) {
+    return static_cast<T>(rand() % (max + 1) + min);
 }
 
 #endif //GENETICALGORITHM_RANDOMUTIL_H

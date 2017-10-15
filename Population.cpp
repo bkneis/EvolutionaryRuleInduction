@@ -24,8 +24,8 @@ Population* Population::selectParents() {
     auto tempPopulation = new Population();
 
     for (int i = 0; i < SIZE_OF_POPULATION; i++) {
-        auto parent1 = this->individuals.at(static_cast<unsigned long>(getRandomNumber(0, SIZE_OF_POPULATION - 1)));
-        auto parent2 = this->individuals.at(static_cast<unsigned long>(getRandomNumber(0, SIZE_OF_POPULATION - 1)));
+        auto parent1 = this->individuals.at(getRandomNumber<unsigned long> (0, SIZE_OF_POPULATION - 1));
+        auto parent2 = this->individuals.at(getRandomNumber<unsigned long> (0, SIZE_OF_POPULATION - 1));
 
         if (parent1->getFitness() >= parent2->getFitness()) {
             tempPopulation->addIndividual(parent1);
