@@ -18,8 +18,9 @@ public:
     Population* crossover();
     Population* mutate();
     Population* printStats(std::string path);
-    Individual* getFitestIndividual();
     Population* replaceWeakestIndividual(Individual* fittest);
+    Individual* getFitestIndividual();
+    Individual* cloneFittestIndividual();
 
 private:
     int maxFitness;

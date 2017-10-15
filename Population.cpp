@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <cstring>
 #include "Population.h"
 #include "config.h"
 #include "randomUtil.h"
@@ -122,4 +123,14 @@ Population* Population::replaceWeakestIndividual(Individual* fittest) {
         }
     }
     this->individuals.insert(this->individuals.begin() + weakest, fittest);
+}
+
+Individual *Population::cloneFittestIndividual() {
+    auto fittestIndividual = this->getFitestIndividual();
+    int size = fittestIndividual->getSize();
+    auto fittestChromosomes = new int[size];
+    memcpy(fittestChromosomes, fittestIndividual->getChromosomes(), size * sizeof(int));
+    fittestIndividual = new Individual(size, COUNTING_ONES);
+    fittestIndividual->setChromosomes(fittestChromosomes);
+    return fittestIndividual;
 }

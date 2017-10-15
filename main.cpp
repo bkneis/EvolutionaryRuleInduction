@@ -5,10 +5,11 @@
 #include "Population.h"
 #include "config.h"
 
-int main() {
-    /* initialize random seed: */
-    srand (time(nullptr));
-
+/**
+ * Create a results file to save the fitness values to per generation. Then return the file path.
+ * @return path
+ */
+std::string createResultsFile() {
     // Create the results file and enter the configuration values
     std::ofstream resultsFile;
     time_t now = time(0);
@@ -25,8 +26,26 @@ int main() {
                     << PROBABILITY_OF_MUTATION;
 
         resultsFile.close();
-    } else {
-        std::cout << "Could not write to the results file, end \n";
+        return path.str();
+    }
+
+    throw "Could not write to the results file";
+}
+
+/**
+ * Main function for the application to perform the GA over configured generations
+ * @return appStatusCode
+ */
+int main() {
+    /* initialize random seed: */
+    srand (time(nullptr));
+
+    // Create results file to save fitness values to
+    std::string resultsPath;
+    try {
+        resultsPath = createResultsFile();
+    } catch(const char* err) {
+        std::cout << err << "\n";
         return 0;
     }
 
@@ -44,7 +63,8 @@ int main() {
     // Loop over the number of generations and evolve the GA
     for (int i = 0; i < NUMBER_OF_GENERATIONS; i++) {
         std::cout << "Generation: " << i + 1 << "\n";
-        Individual fittestIndividual = *population->getFitestIndividual();
+        fittestIndividual = population->cloneFittestIndividual();
+
         tempPopulation = population
                 ->selectParents() // First, let's perform tournament selection and create a new population of the fittest
                 ->crossover() // Now, pair the individuals and perform crossover
@@ -55,7 +75,7 @@ int main() {
         // Replace the weakest individual with the strongest so the max never reduces
         population->replaceWeakestIndividual(fittestIndividual);
         // Print the populations fitness stats
-        population->printStats(path.str());
+        population->printStats(resultsPath);
     }
 
     return 0;
