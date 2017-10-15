@@ -80,7 +80,7 @@ private:
     int getFitnessSquared() {
         this->fitness = 0;
         for (int i = 0; i < this->size; i++) {
-            if (this->chromosome[i] == 1) {
+            if (this->chromosome[this->size - i - 1] == 1) {
                 this->fitness += pow(2, i);
             }
         }
