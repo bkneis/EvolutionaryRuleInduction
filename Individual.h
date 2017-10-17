@@ -4,16 +4,13 @@
 #include <stdint-gcc.h>
 #include "randomUtil.h"
 #include "config.h"
+#include "RulesEngine.h"
+#include "Ingester.h"
 #include <cmath>
 #include <iostream>
 
 enum fitnessStrategy { COUNTING_ONES, SQUARED, RULES };
 
-typedef struct {
-    int* condition;
-    int size;
-    int output;
-} rule;
 
 template <typename fitnessType = int>
 class Individual {
@@ -31,9 +28,9 @@ public:
 
     void toString() {
         std::cout << "Chromosome ";
-        for (int i = 0; i < this->size; i++) {
-            std::cout << unsigned(this->chromosome[i]);
-        }
+//        for (int i = 0; i < this->size; i++) {
+//            std::cout << unsigned(this->chromosome[i]);
+//        }
         std::cout << " with fitness " << this->getFitness();
     }
 
@@ -107,17 +104,22 @@ private:
 
     int getFitnessRules() {
         // Generate a rule base on the individuals chromosomes
-        auto ruleBase = new rule[NUM_RULES];
-        int offset = 0;
-        for(int i = 0; i < NUM_RULES; i++) {
-            auto condition = new int[5];
-            for (int j = 0; j < 5; j++) {
-                condition[j] = this->chromosome[j + offset];
-            }
-            rule newRule = { condition, 5, this->chromosome[6 + offset] };
-            offset += 5;
-        }
-        return 0;
+        auto rulesEngine = new RulesEngine();
+        auto ruleBase = rulesEngine->generateRuleBase(this->chromosome);
+//        for (int i = 0; i < NUM_RULES; i++) {
+//            std::cout << "Condition";
+//            for (int j = 0; j < ruleBase[i].size; j++) {
+//                std::cout << ruleBase[i].condition[j];
+//            }
+//            std::cout << " " << ruleBase[i].output;
+//            std::cout << "\n";
+//        }
+
+        auto ingester = new Ingester();
+        auto dataIn = ingester->readFile("../data/data1.txt");
+
+        this->fitness = rulesEngine->checkRules(dataIn, this->chromosome);
+        return this->fitness;
     }
 
     int* chromosome;

@@ -10,11 +10,11 @@
 data* Ingester::readFile(const char* path) {
     std::ifstream file(path);
     std::string str;
-    auto dataIn = new data[64];
+    auto dataIn = new data[32];
     unsigned j = 0;
     while (std::getline(file, str))
     {
-        std::cout << str << "\n";
+//        std::cout << str << "\n";
         data dataItem = { new int[5], 5, 0 };
         int bit;
         for (unsigned long i = 0; i < 5; i++) {

@@ -16,7 +16,7 @@ public:
 
     void generate(int size) {
         for (int i = 0; i < size; i++) {
-            this->individuals.push_back(new Individual<fitnessType>(NUMBER_OF_CHROMOSONES, COUNTING_ONES));
+            this->individuals.push_back(new Individual<fitnessType>(NUMBER_OF_CHROMOSONES, RULES));
         }
     }
 
