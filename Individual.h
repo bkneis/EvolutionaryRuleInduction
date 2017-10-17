@@ -7,7 +7,13 @@
 #include <cmath>
 #include <iostream>
 
-enum fitnessStrategy { COUNTING_ONES, SQUARED };
+enum fitnessStrategy { COUNTING_ONES, SQUARED, RULES };
+
+typedef struct {
+    int* condition;
+    int size;
+    int output;
+} rule;
 
 template <typename fitnessType = int>
 class Individual {
@@ -37,6 +43,8 @@ public:
                 return this->getFitnessCountingOnes();
             case (SQUARED):
                 return this->getFitnessSquared();
+            case (RULES):
+                return this->getFitnessRules();
             default:
                 std::cout << "Please choose an appropriate fitness strategy"; return 0;
         }
@@ -95,6 +103,21 @@ private:
             }
         }
         return this->fitness;
+    }
+
+    int getFitnessRules() {
+        // Generate a rule base on the individuals chromosomes
+        auto ruleBase = new rule[NUM_RULES];
+        int offset = 0;
+        for(int i = 0; i < NUM_RULES; i++) {
+            auto condition = new int[5];
+            for (int j = 0; j < 5; j++) {
+                condition[j] = this->chromosome[j + offset];
+            }
+            rule newRule = { condition, 5, this->chromosome[6 + offset] };
+            offset += 5;
+        }
+        return 0;
     }
 
     int* chromosome;

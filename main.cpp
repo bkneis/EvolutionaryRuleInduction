@@ -2,8 +2,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "Population.h"
 #include "config.h"
+#include "Population.h"
+#include "Ingester.h"
 
 /**
  * Create a results file to save the fitness values to per generation. Then return the file path.
@@ -15,7 +16,7 @@ std::string createResultsFile() {
     time_t now = time(0);
     char* dt = ctime(&now);
     std::ostringstream path;
-    path << "../data/results_" << dt << ".csv";
+    path << "../results/results_" << dt << ".csv";
     resultsFile.open(path.str(), std::ios_base::app);
 
     if (resultsFile.is_open()) {
@@ -56,6 +57,9 @@ int main() {
     Population<unsigned long>* tempPopulation;
 
     Individual<unsigned long>* fittestIndividual;
+
+    auto ingester = new Ingester();
+    auto dataIn = ingester->readFile("../data/data1.txt");
 
     // Seed the first population randomly
     population->generate(SIZE_OF_POPULATION);

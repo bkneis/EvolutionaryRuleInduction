@@ -149,5 +149,4 @@ private:
     int meanFitness;
 };
 
-
 #endif //GENETICALGORITHM_POPULATION_H
