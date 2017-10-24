@@ -26,11 +26,13 @@ public:
         }
     }
 
-    void toString() {
+    void toString(bool showChromosome = false) {
         std::cout << "Chromosome ";
-//        for (int i = 0; i < this->size; i++) {
-//            std::cout << unsigned(this->chromosome[i]);
-//        }
+        if (showChromosome) {
+            for (int i = 0; i < this->size; i++) {
+                std::cout << unsigned(this->chromosome[i]);
+            }
+        }
         std::cout << " with fitness " << this->getFitness();
     }
 
@@ -60,8 +62,11 @@ public:
     }
 
     void mutate() {
-        int point = getRandomNumber(0, NUMBER_OF_CHROMOSONES);
-        this->chromosome[point] = 1 - this->chromosome[point];
+        for (int i = 0; i < NUMBER_OF_CHROMOSONES; i++) {
+            if (getRandomNumber(1, 10000) <= PROBABILITY_OF_MUTATION) {
+                this->chromosome[i] = 1 - this->chromosome[i];
+            }
+        }
     }
 
     int getSize() {
@@ -106,19 +111,11 @@ private:
         // Generate a rule base on the individuals chromosomes
         auto rulesEngine = new RulesEngine();
         auto ruleBase = rulesEngine->generateRuleBase(this->chromosome);
-//        for (int i = 0; i < NUM_RULES; i++) {
-//            std::cout << "Condition";
-//            for (int j = 0; j < ruleBase[i].size; j++) {
-//                std::cout << ruleBase[i].condition[j];
-//            }
-//            std::cout << " " << ruleBase[i].output;
-//            std::cout << "\n";
-//        }
 
         auto ingester = new Ingester();
         auto dataIn = ingester->readFile("../data/data1.txt");
 
-        this->fitness = rulesEngine->checkRules(dataIn, this->chromosome);
+        this->fitness = rulesEngine->checkRules(dataIn, ruleBase);
         return this->fitness;
     }
 

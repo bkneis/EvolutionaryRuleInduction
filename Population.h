@@ -46,10 +46,8 @@ public:
 
     Population* mutate() {
         for (unsigned long i = 0; i < this->individuals.size() - 1; i++) {
-            if (getRandomNumber(1, 100) <= PROBABILITY_OF_MUTATION) {
-                auto individual = this->individuals.at(i);
-                individual->mutate();
-            }
+            auto individual = this->individuals.at(i);
+            individual->mutate();
         }
         return this;
     }
