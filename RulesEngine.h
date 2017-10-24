@@ -19,8 +19,12 @@ class RulesEngine {
 public:
 
     rule* generateRuleBase(int* chromosome);
-    int checkRules(data* dataIn, int* chromosome); // Should i forward declare data ?
+//    int checkRules(data* dataIn, int* chromosome); // Should i forward declare data ?
+    int checkRules(data* dataIn, rule* rulesBase); // Should i forward declare data ?
 
+private:
+
+    bool isEqual(int* a, int* b, int size);
 };
 
 
