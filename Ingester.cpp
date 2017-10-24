@@ -14,7 +14,6 @@ data* Ingester::readFile(const char* path) {
     unsigned j = 0;
     while (std::getline(file, str))
     {
-//        std::cout << str << "\n";
         data dataItem = { new int[5], 5, 0 };
         int bit;
         for (unsigned long i = 0; i < 5; i++) {
