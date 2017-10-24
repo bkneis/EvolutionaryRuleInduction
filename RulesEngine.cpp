@@ -6,13 +6,14 @@ rule *RulesEngine::generateRuleBase(int* chromosome) {
     auto ruleBase = new rule[NUM_RULES];
     int offset = 0;
     for(int i = 0; i < NUM_RULES; i++) {
-        auto condition = new int[5];
-        for (int j = 0; j < 5; j++) {
+        auto condition = new int[DATA_LENGTH];
+        for (int j = 0; j < DATA_LENGTH; j++) {
             condition[j] = chromosome[j + offset];
         }
-        rule newRule = { condition, 5, chromosome[6 + offset] };
+        // DATA_LENGTH + 1 is needed due to whitespace
+        rule newRule = { condition, DATA_LENGTH, chromosome[DATA_LENGTH + 1 + offset] };
         ruleBase[i] = newRule;
-        offset += 5;
+        offset += DATA_LENGTH;
     }
     return ruleBase;
 }

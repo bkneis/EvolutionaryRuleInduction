@@ -12,6 +12,6 @@
 
 #define DATA_PATH "../data/data1.txt"
 #define DATA_LENGTH 5
-#define NUMBER_OF_DATA 64
+#define NUMBER_OF_DATA 32
 
 #endif //GENETICALGORITHM_CONFIG_H
