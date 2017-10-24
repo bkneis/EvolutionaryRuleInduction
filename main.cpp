@@ -4,7 +4,6 @@
 #include <sstream>
 #include "config.h"
 #include "Population.h"
-#include "Ingester.h"
 
 /**
  * Create a results file to save the fitness values to per generation. Then return the file path.
@@ -58,9 +57,6 @@ int main() {
 
     Individual<unsigned long>* fittestIndividual;
 
-//    auto ingester = new Ingester();
-//    auto dataIn = ingester->readFile("../data/data1.txt");
-
     // Seed the first population randomly
     population->generate(SIZE_OF_POPULATION);
 
@@ -77,8 +73,6 @@ int main() {
         // Assign the new population to the original
         population = tempPopulation;
         // Replace the weakest individual with the strongest so the max never reduces
-        fittestIndividual->toString();
-        std::cout << "\n";
         population->replaceWeakestIndividual(fittestIndividual);
         // Print the populations fitness stats
         population->printStats(resultsPath);
