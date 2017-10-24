@@ -1,5 +1,4 @@
 .idea/*
 cmake-build-debug/
-data/*
 explorer/.ipynb_checkpoints/*
 results/*
