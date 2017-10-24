@@ -42,7 +42,7 @@ public:
                 std::cout << unsigned(this->chromosome[i]);
             }
         }
-        std::cout << " with fitness " << this->getFitness();
+        std::cout << " with fitness " << this->getFitness() << "\n";
     }
 
     int getFitness() {
@@ -90,7 +90,7 @@ public:
         return this->chromosome;
     }
 
-    int* setChromosomes(int* chromosome) {
+    void setChromosomes(int* chromosome) {
         this->chromosome = chromosome;
     }
 
