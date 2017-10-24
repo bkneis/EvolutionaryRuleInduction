@@ -21,8 +21,17 @@ public:
         this->chromosome = new int[size];
         this->fitnessStrat = strategy;
         this->size = size;
+        int n = 1;
+        if (strategy == RULES) {
+            n = 2;
+        }
         for (int i = 0; i < size; i++) {
-            this->chromosome[i] = getRandomNumber(0, 1);
+            // If it's the last bit, ensure it is not a wildcard
+            if (i == size - 1) {
+                this->chromosome[i] = getRandomNumber(0, 1);
+            } else {
+                this->chromosome[i] = getRandomNumber(0, n);
+            }
         }
     }
 
@@ -64,7 +73,11 @@ public:
     void mutate() {
         for (int i = 0; i < NUMBER_OF_CHROMOSONES; i++) {
             if (getRandomNumber(1, 10000) <= PROBABILITY_OF_MUTATION) {
-                this->chromosome[i] = 1 - this->chromosome[i];
+                if (i == NUMBER_OF_CHROMOSONES - 1) {
+                    this->chromosome[i] = 1 - this->chromosome[i];
+                    break;
+                }
+                this->chromosome[i] = getRandomNumber(0, 2);
             }
         }
     }
