@@ -20,7 +20,7 @@ std::string createResultsFile() {
 
     if (resultsFile.is_open()) {
         resultsFile << NUMBER_OF_GENERATIONS << ","
-                    << NUMBER_OF_CHROMOSONES << ","
+                    << NUMBER_OF_CHROMOSOMES << ","
                     << SIZE_OF_POPULATION << ","
                     << PROBABILITY_OF_CROSSOVER << ","
                     << PROBABILITY_OF_MUTATION;

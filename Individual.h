@@ -59,7 +59,7 @@ public:
     }
 
     void crossover(Individual<fitnessType>* partner) {
-        int point = getRandomNumber(0, NUMBER_OF_CHROMOSONES);
+        int point = getRandomNumber(0, NUMBER_OF_CHROMOSOMES);
         auto partnerChromosomes = partner->getChromosomes();
         int tempBit;
         for (int i = point; i < this->size; i++) {
@@ -71,9 +71,9 @@ public:
     }
 
     void mutate() {
-        for (int i = 0; i < NUMBER_OF_CHROMOSONES; i++) {
+        for (int i = 0; i < NUMBER_OF_CHROMOSOMES; i++) {
             if (getRandomNumber(1, 10000) <= PROBABILITY_OF_MUTATION) {
-                if (i == NUMBER_OF_CHROMOSONES - 1) {
+                if (i == NUMBER_OF_CHROMOSOMES - 1) {
                     this->chromosome[i] = 1 - this->chromosome[i];
                     break;
                 }
