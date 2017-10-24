@@ -126,7 +126,7 @@ private:
         auto ruleBase = rulesEngine->generateRuleBase(this->chromosome);
 
         auto ingester = new Ingester();
-        auto dataIn = ingester->readFile("../data/data1.txt");
+        auto dataIn = ingester->readFile(DATA_PATH);
 
         this->fitness = rulesEngine->checkRules(dataIn, ruleBase);
         return this->fitness;
