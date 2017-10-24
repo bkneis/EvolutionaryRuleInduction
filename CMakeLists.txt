@@ -2,6 +2,14 @@ cmake_minimum_required(VERSION 3.8)
 project(GeneticAlgorithm)
 
 set(CMAKE_CXX_STANDARD 17)
+set(HEADER_FOLDER ./include)
+set(SOURCE_FILES src/main.cpp src/Ingester.cpp src/RulesEngine.cpp)
 
-set(SOURCE_FILES main.cpp Individual.h Population.h randomUtil.h config.h Ingester.cpp Ingester.h RulesEngine.cpp RulesEngine.h)
-add_executable(GeneticAlgorithm ${SOURCE_FILES})
+include_directories(${HEADER_FOLDER})
+add_executable(GeneticAlgorithm
+        ${SOURCE_FILES}
+        ${HEADER_FOLDER}/config.h
+        ${HEADER_FOLDER}/Ingester.h
+        ${HEADER_FOLDER}/Population.h
+        ${HEADER_FOLDER}/utils.h
+        ${HEADER_FOLDER}/Individual.h)
