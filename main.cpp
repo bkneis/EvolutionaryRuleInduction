@@ -50,7 +50,7 @@ int main() {
     }
 
     // Create main population that we will be generating
-    auto* population = new Population<unsigned long>();
+    auto population = new Population<unsigned long>();
 
     // Temp population to store values of population of a single generation
     Population<unsigned long>* tempPopulation;
