@@ -6,33 +6,6 @@
 #include "Population.h"
 
 /**
- * Create a results file to save the fitness values to per generation. Then return the file path.
- * @return path
- */
-std::string createResultsFile() {
-    // Create the results file and enter the configuration values
-    std::ofstream resultsFile;
-    time_t now = time(0);
-    char* dt = ctime(&now);
-    std::ostringstream path;
-    path << "../results/results_" << dt << ".csv";
-    resultsFile.open(path.str(), std::ios_base::app);
-
-    if (resultsFile.is_open()) {
-        resultsFile << NUMBER_OF_GENERATIONS << ","
-                    << NUMBER_OF_CHROMOSOMES << ","
-                    << SIZE_OF_POPULATION << ","
-                    << PROBABILITY_OF_CROSSOVER << ","
-                    << PROBABILITY_OF_MUTATION;
-
-        resultsFile.close();
-        return path.str();
-    }
-
-    throw "Could not write to the results file";
-}
-
-/**
  * Main function for the application to perform the GA over configured generations
  * @return appStatusCode
  */
