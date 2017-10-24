@@ -2,7 +2,7 @@
 #define GENETICALGORITHM_INDIVIDUAL_H
 
 #include <stdint-gcc.h>
-#include "randomUtil.h"
+#include "utils.h"
 #include "config.h"
 #include "RulesEngine.h"
 #include "Ingester.h"
