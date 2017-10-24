@@ -128,7 +128,10 @@ public:
                 weakest = i;
             }
         }
-        this->individuals.insert(this->individuals.begin() + weakest, fittest);
+        auto weak = this->individuals.at(weakest);
+        auto it = this->individuals.begin() + weakest;
+        it = this->individuals.erase(it);
+        this->individuals.insert(it, fittest);
     }
 
     Individual<fitnessType>* cloneFittestIndividual() {
