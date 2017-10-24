@@ -10,10 +10,10 @@ rule *RulesEngine::generateRuleBase(int* chromosome) {
         for (int j = 0; j < DATA_LENGTH; j++) {
             condition[j] = chromosome[j + offset];
         }
-        // DATA_LENGTH + 1 is needed due to whitespace
-        rule newRule = { condition, DATA_LENGTH, chromosome[DATA_LENGTH + 1 + offset] };
+        // DATA_LENGTH + 1 is needed to get the class
+        rule newRule = { condition, DATA_LENGTH, chromosome[DATA_LENGTH + offset] };
         ruleBase[i] = newRule;
-        offset += DATA_LENGTH;
+        offset += DATA_LENGTH + 1;
     }
     return ruleBase;
 }
@@ -24,7 +24,7 @@ int RulesEngine::checkRules(data *dataIn, rule* rulesBase) {
     for (int i = 0; i < NUMBER_OF_DATA; i++) {
         for (int j = 0; j < NUM_RULES; j++) {
             if (isEqual(dataIn[i].var, rulesBase[j].condition, dataIn[0].size)) {
-                if (dataIn[i].group == rulesBase[i].output) {
+                if (dataIn[i].group == rulesBase[j].output) {
                     numMatches++;
                 }
                 break;
