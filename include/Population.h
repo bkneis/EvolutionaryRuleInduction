@@ -75,8 +75,16 @@ public:
         } else {
             std::cout << "Could not write to the results file \n";
         }
-        std::cout << "The best individual in the population has fitness " << this->getMaxFitness() << "\n";
         std::cout << "The mean fitness for the population is " << this->getMeanFitness() << "\n";
+        std::cout << "The best individual in the population has fitness " << this->getMaxFitness() << "\n";
+        std::cout << "The best individual's chromosome is ";
+        auto best = this->getFitestIndividual()->getChromosomes();
+        for (size_t i = 0; i < NUMBER_OF_CHROMOSOMES; i++) {
+            if ((i + 1) % (DATA_LENGTH + 1) == 0) std::cout << " ";
+            std::cout << best[i];
+            if ((i + 1) % (DATA_LENGTH + 1) == 0) std::cout << " ";
+        }
+        std::cout << "\n";
         return this;
     }
 
