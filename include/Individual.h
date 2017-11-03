@@ -72,8 +72,8 @@ public:
 
     void mutate() {
         for (int i = 0; i < NUMBER_OF_CHROMOSOMES; i++) {
-            if (getRandomNumber(1, 10000) <= PROBABILITY_OF_MUTATION) {
-                if (i == NUMBER_OF_CHROMOSOMES - 1) {
+            if (getRandomNumber(1, 1000) <= PROBABILITY_OF_MUTATION) {
+                if ((i + 1) % (DATA_LENGTH + 1) == 0) {
                     this->chromosome[i] = 1 - this->chromosome[i];
                     break;
                 }
