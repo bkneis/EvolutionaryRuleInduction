@@ -27,7 +27,7 @@ public:
         }
         for (int i = 0; i < size; i++) {
             // If it's the last bit, ensure it is not a wildcard
-            if (i == size - 1) {
+            if ((i + 1) % (DATA_LENGTH + 1) == 0) {
                 this->chromosome[i] = getRandomNumber(0, 1);
             } else {
                 this->chromosome[i] = getRandomNumber(0, n);
