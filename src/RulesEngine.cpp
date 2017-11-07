@@ -1,4 +1,5 @@
 #include <iostream>
+#include <RulesEngine.h>
 #include "RulesEngine.h"
 #include "config.h"
 
