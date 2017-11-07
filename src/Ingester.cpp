@@ -1,7 +1,6 @@
 #include <fstream>
 #include <iostream>
 #include <Ingester.h>
-#include "Ingester.h"
 #include "config.h"
 
 data* Ingester::readFile(const char* path) {

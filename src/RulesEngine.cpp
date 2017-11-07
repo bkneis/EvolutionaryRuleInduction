@@ -1,6 +1,5 @@
 #include <iostream>
 #include <RulesEngine.h>
-#include "RulesEngine.h"
 #include "config.h"
 
 rule *RulesEngine::generateRuleBase(int* chromosome) {
