@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iostream>
+#include <Ingester.h>
 #include "Ingester.h"
 #include "config.h"
 
