@@ -11,5 +11,6 @@ add_executable(GeneticAlgorithm
         ${HEADER_FOLDER}/config.h
         ${HEADER_FOLDER}/Ingester.h
         ${HEADER_FOLDER}/Population.h
+        ${HEADER_FOLDER}/RulesEngine.h
         ${HEADER_FOLDER}/utils.h
         ${HEADER_FOLDER}/Individual.h)

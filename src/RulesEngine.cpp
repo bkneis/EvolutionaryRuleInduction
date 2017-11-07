@@ -2,17 +2,17 @@
 #include <RulesEngine.h>
 #include "config.h"
 
-rule *RulesEngine::generateRuleBase(int* chromosome) {
+rule *RulesEngine::generateRuleBase(float* chromosome) {
     auto ruleBase = new rule[NUM_RULES];
     int offset = 0;
     for(int i = 0; i < NUM_RULES; i++) {
-        auto condition = new int[DATA_LENGTH];
-        for (int j = 0; j < DATA_LENGTH; j++) {
+        auto condition = new float[DATA_LENGTH * 2];
+        for (int j = 0; j < DATA_LENGTH * 2; j++) {
             condition[j] = chromosome[j + offset];
         }
-        rule newRule = { condition, DATA_LENGTH, chromosome[DATA_LENGTH + offset] };
+        rule newRule = { condition, DATA_LENGTH * 2, chromosome[DATA_LENGTH * 2 + offset] };
         ruleBase[i] = newRule;
-        offset += DATA_LENGTH + 1;
+        offset += DATA_LENGTH * 2 + 1;
     }
     return ruleBase;
 }
@@ -34,15 +34,16 @@ int RulesEngine::checkRules(data *dataIn, rule* rulesBase) {
     return numMatches;
 }
 
-bool RulesEngine::isEqual(int *a, int *b, int size) {
-    for( int i = 0; i < size; i++ ) {
-        // If a wildcard, skip the check. Check both arrays so i don't ned to bother having the first as the rules
-        if (a[i] == 2 || b[i] == 2) {
+bool RulesEngine::isEqual(float* data, float* rule, int size) {
+    int j = 0;
+    for( int i = 0; i < size / 2; i++) {
+        float top = rule[j] > rule[j + 1] ? rule[j] : rule[j + 1];
+        float bottom = rule[j] < rule[j + 1] ? rule[j] : rule[j + 1];
+        if (data[i] < top && data[i] > bottom) {
+            j += 2;
             continue;
         }
-        if (a[i] != b[i]) {
-            return false;
-        }
+        return false;
     }
     return true;
 }

@@ -36,7 +36,7 @@ public:
             auto parent2 = this->individuals.at(getRandomNumber<unsigned long> (0, SIZE_OF_POPULATION - 1));
 
             auto clonedParent = new Individual<unsigned long>(NUMBER_OF_CHROMOSOMES, RULES);
-            auto parentChromosomes = new int[NUMBER_OF_CHROMOSOMES];
+            auto parentChromosomes = new float[NUMBER_OF_CHROMOSOMES];
 
             if (parent1->getFitness() >= parent2->getFitness()) {
                 memcpy(parentChromosomes, parent1->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(int));
@@ -152,7 +152,7 @@ public:
     Individual<fitnessType>* cloneFittestIndividual() {
         auto fittestIndividual = this->getFitestIndividual();
         int size = fittestIndividual->getSize();
-        auto fittestChromosomes = new int[size];
+        auto fittestChromosomes = new float[size];
         memcpy(fittestChromosomes, fittestIndividual->getChromosomes(), size * sizeof(int));
         fittestIndividual = new Individual<fitnessType> (size, fittestIndividual->getFitnessStrategy());
         fittestIndividual->setChromosomes(fittestChromosomes);

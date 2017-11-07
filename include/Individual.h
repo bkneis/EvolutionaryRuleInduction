@@ -18,7 +18,7 @@ class Individual {
 public:
 
     Individual(int size, fitnessStrategy strategy) {
-        this->chromosome = new int[size];
+        this->chromosome = new float[size];
         this->fitnessStrat = strategy;
         this->size = size;
         int n = 1;
@@ -72,11 +72,7 @@ public:
     void mutate() {
         for (int i = 0; i < NUMBER_OF_CHROMOSOMES; i++) {
             if (getRandomNumber(1, 1000) <= PROBABILITY_OF_MUTATION) {
-                if ((i + 1) % (DATA_LENGTH + 1) == 0) {
-                    this->chromosome[i] = 1 - this->chromosome[i];
-                    continue;
-                }
-                this->chromosome[i] = getRandomNumber(0, 2);
+                this->chromosome[i] = getRandomNumber(0, 100000) / 100000;
             }
         }
     }
@@ -85,11 +81,11 @@ public:
         return this->size;
     }
 
-    int* getChromosomes() {
+    float* getChromosomes() {
         return this->chromosome;
     }
 
-    void setChromosomes(int* chromosome) {
+    void setChromosomes(float* chromosome) {
         this->chromosome = chromosome;
     }
 
@@ -131,7 +127,7 @@ private:
         return this->fitness;
     }
 
-    int* chromosome;
+    float* chromosome;
     int size;
     fitnessType fitness;
     fitnessStrategy fitnessStrat;
