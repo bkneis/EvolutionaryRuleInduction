@@ -22,12 +22,10 @@ data* Ingester::readFile(const char* path) {
         data dataItem = { new float[DATA_LENGTH], DATA_LENGTH, 0 };
 
         for (int i = 0; i < DATA_LENGTH; i++) {
-            for (unsigned long k = 0; k < DATA_LENGTH; k++) {
-                dataItem.var[k] = std::stof(tokens.at(i));
-            }
+            dataItem.var[i] = std::stof(tokens.at(i));
         }
 
-        dataItem.group = stoi(tokens.at(DATA_LENGTH + 1)); // Get the class value
+        dataItem.group = stoi(tokens.at(DATA_LENGTH)); // Get the class value
         dataIn[j] = dataItem;
         j++;
     }
