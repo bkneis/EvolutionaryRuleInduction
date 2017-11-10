@@ -153,7 +153,7 @@ public:
         auto fittestIndividual = this->getFitestIndividual();
         int size = fittestIndividual->getSize();
         auto fittestChromosomes = new float[size];
-        memcpy(fittestChromosomes, fittestIndividual->getChromosomes(), size * sizeof(int));
+        memcpy(fittestChromosomes, fittestIndividual->getChromosomes(), size * sizeof(float));
         fittestIndividual = new Individual<fitnessType> (size, fittestIndividual->getFitnessStrategy());
         fittestIndividual->setChromosomes(fittestChromosomes);
         return fittestIndividual;
