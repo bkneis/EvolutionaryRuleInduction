@@ -38,7 +38,6 @@ public:
                 std::cout << unsigned(this->chromosome[i]);
             }
         }
-        std::cout << " with fitness " << this->getFitness() << "\n";
     }
 
     int getFitness(data* dataIn) {
