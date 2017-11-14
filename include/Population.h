@@ -12,6 +12,10 @@ class Population {
 
 public:
 
+    Population(data* dataIn) {
+        this->dataIn = dataIn;
+    }
+
     std::vector<Individual<fitnessType>*> individuals;
 
     void generate(int size) {
@@ -29,7 +33,7 @@ public:
     }
 
     Population* selectParents() {
-        auto tempPopulation = new Population<fitnessType>();
+        auto tempPopulation = new Population<fitnessType>(this->dataIn);
 
         for (int i = 0; i < SIZE_OF_POPULATION; i++) {
             auto parent1 = this->individuals.at(getRandomNumber<unsigned long> (0, SIZE_OF_POPULATION - 1));
@@ -38,7 +42,7 @@ public:
             auto clonedParent = new Individual<unsigned long>(NUMBER_OF_CHROMOSOMES, RULES);
             auto parentChromosomes = new float[NUMBER_OF_CHROMOSOMES];
 
-            if (parent1->getFitness() >= parent2->getFitness()) {
+            if (parent1->getFitness(this->dataIn) >= parent2->getFitness(this->dataIn)) {
                 memcpy(parentChromosomes, parent1->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(int));
             } else {
                 memcpy(parentChromosomes, parent2->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(int));
@@ -112,7 +116,7 @@ public:
         int fitness;
         this->maxFitness = 0;
         for (auto &individual : this->individuals) {
-            fitness = individual->getFitness();
+            fitness = individual->getFitness(this->dataIn);
             if (fitness > this->maxFitness) {
                 this->maxFitness = fitness;
             }
@@ -126,8 +130,8 @@ public:
         auto fittest = this->individuals.at(0);
         int fitness;
         for (auto individual : this->individuals) {
-            fitness = individual->getFitness();
-            if (fitness > fittest->getFitness()) {
+            fitness = individual->getFitness(this->dataIn);
+            if (fitness > fittest->getFitness(this->dataIn)) {
                 fittest = individual;
             }
         }
@@ -138,8 +142,8 @@ public:
         unsigned long weakest = 0;
         int fitness;
         for (unsigned long i = 0; i < this->individuals.size(); i++) {
-            fitness = this->individuals.at(i)->getFitness();
-            if (fitness < this->individuals.at(weakest)->getFitness()) {
+            fitness = this->individuals.at(i)->getFitness(this->dataIn);
+            if (fitness < this->individuals.at(weakest)->getFitness(this->dataIn)) {
                 weakest = i;
             }
         }
@@ -163,6 +167,8 @@ private:
 
     int maxFitness;
     int meanFitness;
+    data* dataIn;
+
 };
 
 #endif //GENETICALGORITHM_POPULATION_H

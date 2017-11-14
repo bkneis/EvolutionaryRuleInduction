@@ -41,14 +41,14 @@ public:
         std::cout << " with fitness " << this->getFitness() << "\n";
     }
 
-    int getFitness() {
+    int getFitness(data* dataIn) {
         switch (this->fitnessStrat) {
             case (COUNTING_ONES):
                 return this->getFitnessCountingOnes();
             case (SQUARED):
                 return this->getFitnessSquared();
             case (RULES):
-                return this->getFitnessRules();
+                return this->getFitnessRules(dataIn);
             default:
                 std::cout << "Please choose an appropriate fitness strategy"; return 0;
         }
@@ -115,13 +115,10 @@ private:
         return this->fitness;
     }
 
-    int getFitnessRules() {
+    int getFitnessRules(data* dataIn) {
         // Generate a rule base on the individuals chromosomes
         auto rulesEngine = new RulesEngine();
         auto ruleBase = rulesEngine->generateRuleBase(this->chromosome);
-
-        auto ingester = new Ingester();
-        auto dataIn = ingester->readFile(DATA_PATH);
 
         this->fitness = rulesEngine->checkRules(dataIn, ruleBase);
         return this->fitness;

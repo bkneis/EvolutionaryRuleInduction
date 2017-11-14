@@ -22,8 +22,11 @@ int main() {
         return 0;
     }
 
+    auto ingester = new Ingester();
+    auto dataIn = ingester->readFile(DATA_PATH);
+
     // Create main population that we will be generating
-    auto population = new Population<unsigned long>();
+    auto population = new Population<unsigned long>(dataIn);
 
     // Temp population to store values of population of a single generation
     Population<unsigned long>* tempPopulation;
