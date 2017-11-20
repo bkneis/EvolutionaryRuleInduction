@@ -28,25 +28,24 @@ int main() {
     // Create main population that we will be generating
     auto population = new Population<unsigned long>(dataIn);
 
-    // Temp population to store values of population of a single generation
-    Population<unsigned long>* tempPopulation;
-
     Individual<unsigned long>* fittestIndividual;
 
     // Seed the first population randomly
     population->generate(SIZE_OF_POPULATION);
+    population->calcFitness();
 
     // Loop over the number of generations and evolve the GA
     for (int i = 0; i < NUMBER_OF_GENERATIONS; i++) {
         fittestIndividual = population->cloneFittestIndividual();
 
-        tempPopulation = population
+        population = population
                 ->selectParents() // First, let's perform tournament selection and create a new population of the fittest
                 ->crossover() // Now, pair the individuals and perform crossover
-                ->mutate(); // Once crossover is done, run mutation to randomly flip bits
+                ->mutate() // Once crossover is done, run mutation to randomly flip bits
+                ->calcFitness(); // Calculate the fitness of all individuals in population
 
         // Assign the new population to the original
-        population = tempPopulation;
+        // population = tempPopulation;
         // Replace the weakest individual with the strongest so the max never reduces
         population->replaceWeakestIndividual(fittestIndividual);
         // Print the populations fitness stats

@@ -31,26 +31,30 @@ public:
         }
     }
 
-    void toString(bool showChromosome = false) {
+    void toString(bool showChromosome) {
         std::cout << "Chromosome ";
+        std::cout << this->size;
+        std::cout << std::fixed;
         if (showChromosome) {
             for (int i = 0; i < this->size; i++) {
-                std::cout << unsigned(this->chromosome[i]);
+                std::cout << this->chromosome[i];
             }
         }
     }
 
-    int getFitness(data* dataIn) {
+    void calcFitness(data* dataIn) {
         switch (this->fitnessStrat) {
             case (COUNTING_ONES):
-                return this->getFitnessCountingOnes();
+                this->getFitnessCountingOnes();
             case (SQUARED):
-                return this->getFitnessSquared();
-            case (RULES):
-                return this->getFitnessRules(dataIn);
+                this->getFitnessSquared();
             default:
-                std::cout << "Please choose an appropriate fitness strategy"; return 0;
+                this->getFitnessRules(dataIn);
         }
+    }
+
+    int getFitness(data* dataIn) {
+        return this->fitness;
     }
 
     void crossover(Individual<fitnessType>* partner) {
@@ -90,6 +94,10 @@ public:
 
     fitnessStrategy getFitnessStrategy() {
         return this->fitnessStrat;
+    }
+
+    void setFitness(int fitness) { // change with fitnessType
+        this->fitness = fitness;
     }
 
 private:

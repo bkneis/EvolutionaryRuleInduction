@@ -27,7 +27,7 @@ public:
     void toString() {
         for (int i = 0; i < this->individuals.size(); i++) {
             std::cout << "Individual at index " << i << " has ";
-            this->individuals.at(i)->toString();
+            this->individuals.at(i)->toString(true);
             std::cout << "\n";
         }
     }
@@ -111,6 +111,14 @@ public:
         this->individuals.push_back(individual);
     }
 
+    Population* calcFitness() {
+        for (unsigned long i = 0; i < this->individuals.size(); i++) {
+            auto individual = this->individuals.at(i);
+            individual->calcFitness(this->dataIn);
+        }
+        return this;
+    }
+
     Population* calcStats() {
         int total = 0;
         int fitness;
@@ -157,9 +165,11 @@ public:
         auto fittestIndividual = this->getFitestIndividual();
         int size = fittestIndividual->getSize();
         auto fittestChromosomes = new float[size];
+        int fitness = fittestIndividual->getFitness(this->dataIn);
         memcpy(fittestChromosomes, fittestIndividual->getChromosomes(), size * sizeof(float));
         fittestIndividual = new Individual<fitnessType> (size, fittestIndividual->getFitnessStrategy());
         fittestIndividual->setChromosomes(fittestChromosomes);
+        fittestIndividual->setFitness(fitness);
         return fittestIndividual;
     }
 
