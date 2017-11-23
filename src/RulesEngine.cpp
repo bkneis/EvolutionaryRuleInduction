@@ -14,6 +14,16 @@ rule *RulesEngine::generateRuleBase(float* chromosome) {
         ruleBase[i] = newRule;
         offset += DATA_LENGTH * 2 + 1;
     }
+//    for (int k = 0; k < NUMBER_OF_CHROMOSOMES; k++) {
+//        std::cout << "k: " << k << " " << chromosome[k] << "\n";
+//    }
+//    for (int i = 0; i < NUM_RULES; i++) {
+//        std::cout << i << ": ";
+//        for (int j = 0; j < DATA_LENGTH * 2; j++) {
+//            std::cout << ruleBase[i].condition[j] << " ";
+//        }
+//        std::cout << "  " << ruleBase[i].output << " " << ruleBase[i].size << "\n";
+//    }
     return ruleBase;
 }
 
@@ -36,10 +46,9 @@ int RulesEngine::checkRules(data *dataIn, rule* rulesBase) {
 
 bool RulesEngine::isEqual(float* data, float* rule, int size) {
     int j = 0;
-    for( int i = 0; i < size / 2; i++) {
-        float top = rule[j] > rule[j + 1] ? rule[j] : rule[j + 1];
-        float bottom = rule[j] < rule[j + 1] ? rule[j] : rule[j + 1];
-        if (data[i] < top && data[i] > bottom) {
+    // greater than left less than the right
+    for( int i = 0; i < size; i++) {
+        if (data[i] > rule[j] && data[i] < rule[j + 1]) {
             j += 2;
             continue;
         }

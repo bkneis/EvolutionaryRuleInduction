@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <Ingester.h>
 #include "config.h"
 #include "Population.h"
 
@@ -10,8 +11,9 @@
  * @return appStatusCode
  */
 int main() {
+
     /* initialize random seed: */
-    srand (time(nullptr));
+    srand (time(NULL));
 
     // Create results file to save fitness values to
     std::string resultsPath;
@@ -44,15 +46,13 @@ int main() {
                 ->mutate() // Once crossover is done, run mutation to randomly flip bits
                 ->calcFitness(); // Calculate the fitness of all individuals in population
 
-        // Assign the new population to the original
-        // population = tempPopulation;
         // Replace the weakest individual with the strongest so the max never reduces
         population->replaceWeakestIndividual(fittestIndividual);
+
         // Print the populations fitness stats
-        if ((i + 1) % 5 == 0) {
-            std::cout << "Generation: " << i + 1 << "\n";
-            population->printStats(resultsPath, true);
-        }
+        std::cout << "Generation: " << i + 1 << "\n";
+        population->printStats(resultsPath, true);
+        // population->toString();
     }
 
     return 0;

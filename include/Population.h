@@ -43,9 +43,9 @@ public:
             auto parentChromosomes = new float[NUMBER_OF_CHROMOSOMES];
 
             if (parent1->getFitness(this->dataIn) >= parent2->getFitness(this->dataIn)) {
-                memcpy(parentChromosomes, parent1->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(int));
+                memcpy(parentChromosomes, parent1->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(float));
             } else {
-                memcpy(parentChromosomes, parent2->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(int));
+                memcpy(parentChromosomes, parent2->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(float));
             }
 
             clonedParent->setChromosomes(parentChromosomes);
@@ -89,10 +89,10 @@ public:
             std::cout << "The best individual in the population has fitness " << this->getMaxFitness() << "\n";
             std::cout << "The best individual's chromosome is ";
             auto best = this->getFitestIndividual()->getChromosomes();
-            for (size_t i = 0; i < NUMBER_OF_CHROMOSOMES; i++) {
-                if ((i + 1) % (DATA_LENGTH + 1) == 0) std::cout << " ";
-                std::cout << best[i];
-                if ((i + 1) % (DATA_LENGTH + 1) == 0) std::cout << " ";
+            for (int i = 0; i < NUMBER_OF_CHROMOSOMES; i++) {
+                if ((i + 1) % (DATA_LENGTH * 2 + 1) == 0) std::cout << " = ";
+                std::cout << best[i] << " ";
+                if ((i + 1) % (DATA_LENGTH * 2 + 1) == 0) std::cout << "/ ";
             }
             std::cout << "\n";
         }
@@ -170,6 +170,8 @@ public:
         fittestIndividual = new Individual<fitnessType> (size, fittestIndividual->getFitnessStrategy());
         fittestIndividual->setChromosomes(fittestChromosomes);
         fittestIndividual->setFitness(fitness);
+        // std::cout << "============= fitest swap =====================";
+        // fittestIndividual->toString(true);
         return fittestIndividual;
     }
 

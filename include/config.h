@@ -6,11 +6,12 @@
 #define SIZE_OF_POPULATION 500
 
 #define PROBABILITY_OF_CROSSOVER 100
-#define PROBABILITY_OF_MUTATION 15
+#define PROBABILITY_OF_MUTATION 8
 
+#define DATA_STEP 0.2
 #define NUM_RULES 10
-#define DATA_PATH "../data/data3.txt"
+#define DATA_PATH "../data/data3b.txt"
 #define DATA_LENGTH 6
-#define NUMBER_OF_DATA 2000
+#define NUMBER_OF_DATA 1000
 
 #endif //GENETICALGORITHM_CONFIG_H

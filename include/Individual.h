@@ -23,7 +23,7 @@ public:
         this->size = size;
         for (int i = 0; i < size; i++) {
             // If it's the last bit, ensure it is not a wildcard
-            if ((i + 1) % (DATA_LENGTH + 1) == 0) {
+            if ((i + 1) % (DATA_LENGTH * 2 + 1) == 0) {
                 this->chromosome[i] = getRandomNumber(0, 1);
             } else {
                 this->chromosome[i] = ((float) rand() / (RAND_MAX));
@@ -32,12 +32,10 @@ public:
     }
 
     void toString(bool showChromosome) {
-        std::cout << "Chromosome ";
-        std::cout << this->size;
-        std::cout << std::fixed;
+        std::cout << "Chromosome";
         if (showChromosome) {
             for (int i = 0; i < this->size; i++) {
-                std::cout << this->chromosome[i];
+                std::cout << " " << this->chromosome[i];
             }
         }
     }
@@ -61,7 +59,7 @@ public:
         int point = getRandomNumber(0, NUMBER_OF_CHROMOSOMES - 1);
         auto partnerChromosomes = partner->getChromosomes();
         for (int i = point; i < this->size; i++) {
-            int tempBit = this->chromosome[i];
+            float tempBit = this->chromosome[i];
             this->chromosome[i] = partnerChromosomes[i];
             partnerChromosomes[i] = tempBit;
         }
@@ -71,10 +69,22 @@ public:
     void mutate() {
         for (int i = 0; i < NUMBER_OF_CHROMOSOMES; i++) {
             if (getRandomNumber(1, 1000) <= PROBABILITY_OF_MUTATION) {
-                if ((i + 1) % (DATA_LENGTH + 1) == 0) {
+                if ((i + 1) % (DATA_LENGTH * 2 + 1) == 0) {
                     this->chromosome[i] = 1 - this->chromosome[i];
                 } else {
-                    this->chromosome[i] = ((float) rand() / (RAND_MAX));
+                    float randomChange = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / DATA_STEP));
+
+                    if (getRandomNumber(0, 1) == 0) {
+                        this->chromosome[i] -= randomChange;
+                    } else {
+                        this->chromosome[i] += randomChange;
+                    }
+
+                    if (this->chromosome[i] > 1) {
+                        this->chromosome[i] = 1;
+                    } else if (this->chromosome[i] < 0) {
+                        this->chromosome[i] = 0;
+                    }
                 }
             }
         }
