@@ -47,7 +47,7 @@ int main() {
         // Replace the weakest individual with the strongest so the max never reduces
         population->replaceWeakestIndividual(fittestIndividual);
         // Print the populations fitness stats
-        if ((i + 1) % 5 == 0) {
+        if ((i + 1) % 1 == 0) {
             std::cout << "Generation: " << i + 1 << "\n";
             population->printStats(resultsPath, true);
         }
