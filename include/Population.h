@@ -80,22 +80,30 @@ public:
 
         if (resultsFile.is_open()) {
             resultsFile << this->getMaxFitness() << "," << this->getMeanFitness() << "\n";
-            resultsFile.close();
         } else {
             std::cout << "Could not write to the results file \n";
         }
         if (printBest) {
             std::cout << "The mean fitness for the population is " << this->getMeanFitness() << "\n";
             std::cout << "The best individual in the population has fitness " << this->getMaxFitness() << "\n";
-            std::cout << "The best individual's chromosome is ";
+            std::cout << "The best individual's chromosome is \n";
             auto best = this->getFitestIndividual()->getChromosomes();
             for (int i = 0; i < NUMBER_OF_CHROMOSOMES; i++) {
-                if ((i + 1) % (DATA_LENGTH * 2 + 1) == 0) std::cout << " = ";
+                if ((i + 1) % (DATA_LENGTH * 2 + 1) == 0) {
+                    std::cout << " = ";
+                    resultsFile << " = ";
+                }
                 std::cout << best[i] << " ";
-                if ((i + 1) % (DATA_LENGTH * 2 + 1) == 0) std::cout << "/ ";
+                resultsFile << best[i] << " ";
+                if ((i + 1) % (DATA_LENGTH * 2 + 1) == 0) {
+                    std::cout << "\n";
+                    resultsFile << "\n";
+                }
             }
             std::cout << "\n";
+            resultsFile << "\n";
         }
+        resultsFile.close();
         return this;
     }
 
