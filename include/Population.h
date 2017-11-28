@@ -22,6 +22,7 @@ public:
         for (int i = 0; i < size; i++) {
             this->individuals.push_back(new Individual<fitnessType>(NUMBER_OF_CHROMOSOMES, RULES));
         }
+        this->calcFitness();
     }
 
     void toString() {
@@ -72,8 +73,10 @@ public:
         return this;
     }
 
-    Population* printStats(std::string path, bool printBest = false) {
+    Population* printStats(std::string path, int generation, bool printBest = false) {
         this->calcStats();
+
+        std::cout << "Generation: " << generation << "\n";
 
         std::ofstream resultsFile;
         resultsFile.open(path, std::ios_base::app);
@@ -91,17 +94,17 @@ public:
             for (int i = 0; i < NUMBER_OF_CHROMOSOMES; i++) {
                 if ((i + 1) % (DATA_LENGTH * 2 + 1) == 0) {
                     std::cout << " = ";
-                    resultsFile << " = ";
+                    // resultsFile << " = ";
                 }
                 std::cout << best[i] << " ";
-                resultsFile << best[i] << " ";
+                // resultsFile << best[i] << " ";
                 if ((i + 1) % (DATA_LENGTH * 2 + 1) == 0) {
                     std::cout << "\n";
-                    resultsFile << "\n";
+                    // resultsFile << "\n";
                 }
             }
             std::cout << "\n";
-            resultsFile << "\n";
+            // resultsFile << "\n";
         }
         resultsFile.close();
         return this;
@@ -167,6 +170,7 @@ public:
         auto it = this->individuals.begin() + weakest;
         it = this->individuals.erase(it);
         this->individuals.insert(it, fittest);
+        return this;
     }
 
     Individual<fitnessType>* cloneFittestIndividual() {
@@ -178,8 +182,6 @@ public:
         fittestIndividual = new Individual<fitnessType> (size, fittestIndividual->getFitnessStrategy());
         fittestIndividual->setChromosomes(fittestChromosomes);
         fittestIndividual->setFitness(fitness);
-        // std::cout << "============= fitest swap =====================";
-        // fittestIndividual->toString(true);
         return fittestIndividual;
     }
 

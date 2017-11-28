@@ -40,14 +40,14 @@ public:
         }
     }
 
-    void calcFitness(data* dataIn) {
+    void calcFitness(data* dataIn, int numData = NUMBER_OF_DATA) {
         switch (this->fitnessStrat) {
             case (COUNTING_ONES):
                 this->getFitnessCountingOnes();
             case (SQUARED):
                 this->getFitnessSquared();
             default:
-                this->getFitnessRules(dataIn);
+                this->getFitnessRules(dataIn, numData);
         }
     }
 
@@ -132,12 +132,12 @@ private:
         return this->fitness;
     }
 
-    int getFitnessRules(data* dataIn) {
+    int getFitnessRules(data* dataIn, int numData) {
         // Generate a rule base on the individuals chromosomes
         auto rulesEngine = new RulesEngine();
         auto ruleBase = rulesEngine->generateRuleBase(this->chromosome);
 
-        this->fitness = rulesEngine->checkRules(dataIn, ruleBase);
+        this->fitness = rulesEngine->checkRules(dataIn, ruleBase, numData);
         return this->fitness;
     }
 

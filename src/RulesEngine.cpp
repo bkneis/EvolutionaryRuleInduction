@@ -27,10 +27,10 @@ rule *RulesEngine::generateRuleBase(float* chromosome) {
     return ruleBase;
 }
 
-int RulesEngine::checkRules(data *dataIn, rule* rulesBase) {
+int RulesEngine::checkRules(data *dataIn, rule* rulesBase, int numData) {
     int numMatches = 0;
 
-    for (int i = 0; i < NUMBER_OF_DATA; i++) {
+    for (int i = 0; i < numData; i++) {
         for (int j = 0; j < NUM_RULES; j++) {
             if (isEqual(dataIn[i].var, rulesBase[j].condition, dataIn[0].size)) {
                 if (dataIn[i].group == rulesBase[j].output) {

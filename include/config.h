@@ -12,6 +12,7 @@
 #define NUM_RULES 6
 #define DATA_PATH "../data/data3.txt"
 #define DATA_LENGTH 6
-#define NUMBER_OF_DATA 2000
+#define NUMBER_OF_DATA 1600
+#define NUMBER_OF_FOLDS 5
 
 #endif //GENETICALGORITHM_CONFIG_H

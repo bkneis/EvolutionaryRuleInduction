@@ -15,7 +15,7 @@ class RulesEngine {
 public:
 
     rule* generateRuleBase(float* chromosome);
-    int checkRules(data* dataIn, rule* rulesBase); // Should i forward declare data ?
+    int checkRules(data* dataIn, rule* rulesBase, int numData);
 
 private:
 
