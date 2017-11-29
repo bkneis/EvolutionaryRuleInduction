@@ -1,5 +1,5 @@
 #include <iostream>
-#include "RulesEngine.h"
+#include <RulesEngine.h>
 #include "config.h"
 
 rule *RulesEngine::generateRuleBase(int* chromosome) {
@@ -10,7 +10,6 @@ rule *RulesEngine::generateRuleBase(int* chromosome) {
         for (int j = 0; j < DATA_LENGTH; j++) {
             condition[j] = chromosome[j + offset];
         }
-        // DATA_LENGTH + 1 is needed to get the class
         rule newRule = { condition, DATA_LENGTH, chromosome[DATA_LENGTH + offset] };
         ruleBase[i] = newRule;
         offset += DATA_LENGTH + 1;

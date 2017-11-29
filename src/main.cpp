@@ -35,7 +35,6 @@ int main() {
 
     // Loop over the number of generations and evolve the GA
     for (int i = 0; i < NUMBER_OF_GENERATIONS; i++) {
-        std::cout << "Generation: " << i + 1 << "\n";
         fittestIndividual = population->cloneFittestIndividual();
 
         tempPopulation = population
@@ -48,7 +47,10 @@ int main() {
         // Replace the weakest individual with the strongest so the max never reduces
         population->replaceWeakestIndividual(fittestIndividual);
         // Print the populations fitness stats
-        population->printStats(resultsPath);
+        if ((i + 1) % 1 == 0) {
+            std::cout << "Generation: " << i + 1 << "\n";
+            population->printStats(resultsPath, true);
+        }
     }
 
     return 0;

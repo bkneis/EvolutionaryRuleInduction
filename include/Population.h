@@ -28,25 +28,60 @@ public:
         }
     }
 
+//    Population* selectParents() {
+//        auto tempPopulation = new Population<fitnessType>();
+//
+//        for (int i = 0; i < SIZE_OF_POPULATION; i++) {
+//            auto parent1 = this->individuals.at(getRandomNumber<unsigned long> (0, SIZE_OF_POPULATION - 1));
+//            auto parent2 = this->individuals.at(getRandomNumber<unsigned long> (0, SIZE_OF_POPULATION - 1));
+//
+//            auto clonedParent = new Individual<unsigned long>(NUMBER_OF_CHROMOSOMES, RULES);
+//            auto parentChromosomes = new int[NUMBER_OF_CHROMOSOMES];
+//
+//            if (parent1->getFitness() >= parent2->getFitness()) {
+//                memcpy(parentChromosomes, parent1->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(int));
+//            } else {
+//                memcpy(parentChromosomes, parent2->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(int));
+//            }
+//
+//            clonedParent->setChromosomes(parentChromosomes);
+//            tempPopulation->addIndividual(clonedParent);
+//        }
+//        return tempPopulation;
+//    }
+
     Population* selectParents() {
         auto tempPopulation = new Population<fitnessType>();
 
         for (int i = 0; i < SIZE_OF_POPULATION; i++) {
-            auto parent1 = this->individuals.at(getRandomNumber<unsigned long> (0, SIZE_OF_POPULATION - 1));
-            auto parent2 = this->individuals.at(getRandomNumber<unsigned long> (0, SIZE_OF_POPULATION - 1));
 
-            if (parent1->getFitness() >= parent2->getFitness()) {
-                tempPopulation->addIndividual(parent1);
-            } else {
-                tempPopulation->addIndividual(parent2);
+            std::vector<Individual<fitnessType>*> tournament;
+
+            for (int j = 0; j < TOURNAMENT_SIZE; j++) {
+                tournament.push_back(this->individuals.at(getRandomNumber<unsigned long> (0, SIZE_OF_POPULATION - 1)));
             }
+
+            auto clonedParent = new Individual<unsigned long>(NUMBER_OF_CHROMOSOMES, RULES);
+            auto parentChromosomes = new int[NUMBER_OF_CHROMOSOMES];
+
+            auto best = tournament.at(0);
+
+            for (auto parent: tournament) {
+                if (parent->getFitness() > best->getFitness()) {
+                    best = parent;
+                }
+            }
+
+            memcpy(parentChromosomes, best->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(int));
+
+            clonedParent->setChromosomes(parentChromosomes);
+            tempPopulation->addIndividual(clonedParent);
         }
         return tempPopulation;
     }
 
     Population* mutate() {
-        for (unsigned long i = 0; i < this->individuals.size() - 1; i++) {
-            auto individual = this->individuals.at(i);
+        for (auto &individual: this->individuals) {
             individual->mutate();
         }
         return this;
@@ -63,7 +98,7 @@ public:
         return this;
     }
 
-    Population* printStats(std::string path) {
+    Population* printStats(std::string path, bool printBest = false) {
         this->calcStats();
 
         std::ofstream resultsFile;
@@ -75,8 +110,18 @@ public:
         } else {
             std::cout << "Could not write to the results file \n";
         }
-        std::cout << "The best individual in the population has fitness " << this->getMaxFitness() << "\n";
-        std::cout << "The mean fitness for the population is " << this->getMeanFitness() << "\n";
+        if (printBest) {
+            std::cout << "The mean fitness for the population is " << this->getMeanFitness() << "\n";
+            std::cout << "The best individual in the population has fitness " << this->getMaxFitness() << "\n";
+            std::cout << "The best individual's chromosome is ";
+            auto best = this->getFitestIndividual()->getChromosomes();
+            for (size_t i = 0; i < NUMBER_OF_CHROMOSOMES; i++) {
+                if ((i + 1) % (DATA_LENGTH + 1) == 0) std::cout << " ";
+                std::cout << best[i];
+                if ((i + 1) % (DATA_LENGTH + 1) == 0) std::cout << " ";
+            }
+            std::cout << "\n";
+        }
         return this;
     }
 
