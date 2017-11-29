@@ -28,21 +28,51 @@ public:
         }
     }
 
+//    Population* selectParents() {
+//        auto tempPopulation = new Population<fitnessType>();
+//
+//        for (int i = 0; i < SIZE_OF_POPULATION; i++) {
+//            auto parent1 = this->individuals.at(getRandomNumber<unsigned long> (0, SIZE_OF_POPULATION - 1));
+//            auto parent2 = this->individuals.at(getRandomNumber<unsigned long> (0, SIZE_OF_POPULATION - 1));
+//
+//            auto clonedParent = new Individual<unsigned long>(NUMBER_OF_CHROMOSOMES, RULES);
+//            auto parentChromosomes = new int[NUMBER_OF_CHROMOSOMES];
+//
+//            if (parent1->getFitness() >= parent2->getFitness()) {
+//                memcpy(parentChromosomes, parent1->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(int));
+//            } else {
+//                memcpy(parentChromosomes, parent2->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(int));
+//            }
+//
+//            clonedParent->setChromosomes(parentChromosomes);
+//            tempPopulation->addIndividual(clonedParent);
+//        }
+//        return tempPopulation;
+//    }
+
     Population* selectParents() {
         auto tempPopulation = new Population<fitnessType>();
 
         for (int i = 0; i < SIZE_OF_POPULATION; i++) {
-            auto parent1 = this->individuals.at(getRandomNumber<unsigned long> (0, SIZE_OF_POPULATION - 1));
-            auto parent2 = this->individuals.at(getRandomNumber<unsigned long> (0, SIZE_OF_POPULATION - 1));
+
+            std::vector<Individual<fitnessType>*> tournament;
+
+            for (int j = 0; j < TOURNAMENT_SIZE; j++) {
+                tournament.push_back(this->individuals.at(getRandomNumber<unsigned long> (0, SIZE_OF_POPULATION - 1)));
+            }
 
             auto clonedParent = new Individual<unsigned long>(NUMBER_OF_CHROMOSOMES, RULES);
             auto parentChromosomes = new int[NUMBER_OF_CHROMOSOMES];
 
-            if (parent1->getFitness() >= parent2->getFitness()) {
-                memcpy(parentChromosomes, parent1->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(int));
-            } else {
-                memcpy(parentChromosomes, parent2->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(int));
+            auto best = tournament.at(0);
+
+            for (auto parent: tournament) {
+                if (parent->getFitness() > best->getFitness()) {
+                    best = parent;
+                }
             }
+
+            memcpy(parentChromosomes, best->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(int));
 
             clonedParent->setChromosomes(parentChromosomes);
             tempPopulation->addIndividual(clonedParent);
