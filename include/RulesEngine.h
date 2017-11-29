@@ -1,14 +1,10 @@
-//
-// Created by arthur on 17/10/17.
-//
-
 #ifndef GENETICALGORITHM_RULESENGINE_H
 #define GENETICALGORITHM_RULESENGINE_H
 
 #include "Ingester.h"
 
 typedef struct {
-    int* condition;
+    float* condition;
     int size;
     int output;
 } rule;
@@ -18,13 +14,12 @@ class RulesEngine {
 
 public:
 
-    rule* generateRuleBase(int* chromosome);
-//    int checkRules(data* dataIn, int* chromosome); // Should i forward declare data ?
-    int checkRules(data* dataIn, rule* rulesBase); // Should i forward declare data ?
+    rule* generateRuleBase(float* chromosome);
+    int checkRules(data* dataIn, rule* rulesBase, int numData);
 
 private:
 
-    bool isEqual(int* a, int* b, int size);
+    bool isEqual(float* a, float* b, int size);
 };
 
 

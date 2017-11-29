@@ -18,51 +18,48 @@ class Individual {
 public:
 
     Individual(int size, fitnessStrategy strategy) {
-        this->chromosome = new int[size];
+        this->chromosome = new float[size];
         this->fitnessStrat = strategy;
         this->size = size;
-        int n = 1;
-        if (strategy == RULES) {
-            n = 2;
-        }
         for (int i = 0; i < size; i++) {
             // If it's the last bit, ensure it is not a wildcard
-            if ((i + 1) % (DATA_LENGTH + 1) == 0) {
+            if ((i + 1) % (DATA_LENGTH * 2 + 1) == 0) {
                 this->chromosome[i] = getRandomNumber(0, 1);
             } else {
-                this->chromosome[i] = getRandomNumber(0, n);
+                this->chromosome[i] = ((float) rand() / (RAND_MAX));
             }
         }
     }
 
-    void toString(bool showChromosome = false) {
-        std::cout << "Chromosome ";
+    void toString(bool showChromosome) {
+        std::cout << "Chromosome";
         if (showChromosome) {
             for (int i = 0; i < this->size; i++) {
-                std::cout << unsigned(this->chromosome[i]);
+                std::cout << " " << this->chromosome[i];
             }
         }
-        std::cout << " with fitness " << this->getFitness() << "\n";
     }
 
-    int getFitness() {
+    void calcFitness(data* dataIn, int numData = NUMBER_OF_DATA) {
         switch (this->fitnessStrat) {
             case (COUNTING_ONES):
-                return this->getFitnessCountingOnes();
+                this->getFitnessCountingOnes();
             case (SQUARED):
-                return this->getFitnessSquared();
-            case (RULES):
-                return this->getFitnessRules();
+                this->getFitnessSquared();
             default:
-                std::cout << "Please choose an appropriate fitness strategy"; return 0;
+                this->getFitnessRules(dataIn, numData);
         }
+    }
+
+    int getFitness(data* dataIn) {
+        return this->fitness;
     }
 
     void crossover(Individual<fitnessType>* partner) {
         int point = getRandomNumber(0, NUMBER_OF_CHROMOSOMES - 1);
         auto partnerChromosomes = partner->getChromosomes();
         for (int i = point; i < this->size; i++) {
-            int tempBit = this->chromosome[i];
+            float tempBit = this->chromosome[i];
             this->chromosome[i] = partnerChromosomes[i];
             partnerChromosomes[i] = tempBit;
         }
@@ -72,11 +69,23 @@ public:
     void mutate() {
         for (int i = 0; i < NUMBER_OF_CHROMOSOMES; i++) {
             if (getRandomNumber(1, 1000) <= PROBABILITY_OF_MUTATION) {
-                if ((i + 1) % (DATA_LENGTH + 1) == 0) {
+                if ((i + 1) % (DATA_LENGTH * 2 + 1) == 0) {
                     this->chromosome[i] = 1 - this->chromosome[i];
-                    continue;
+                } else {
+                    float randomChange = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / DATA_STEP));
+
+                    if (getRandomNumber(0, 1) == 0) {
+                        this->chromosome[i] -= randomChange;
+                    } else {
+                        this->chromosome[i] += randomChange;
+                    }
+
+                    if (this->chromosome[i] > 1) {
+                        this->chromosome[i] = 1;
+                    } else if (this->chromosome[i] < 0) {
+                        this->chromosome[i] = 0;
+                    }
                 }
-                this->chromosome[i] = getRandomNumber(0, 2);
             }
         }
     }
@@ -85,16 +94,20 @@ public:
         return this->size;
     }
 
-    int* getChromosomes() {
+    float* getChromosomes() {
         return this->chromosome;
     }
 
-    void setChromosomes(int* chromosome) {
+    void setChromosomes(float* chromosome) {
         this->chromosome = chromosome;
     }
 
     fitnessStrategy getFitnessStrategy() {
         return this->fitnessStrat;
+    }
+
+    void setFitness(int fitness) { // change with fitnessType
+        this->fitness = fitness;
     }
 
 private:
@@ -119,19 +132,16 @@ private:
         return this->fitness;
     }
 
-    int getFitnessRules() {
+    int getFitnessRules(data* dataIn, int numData) {
         // Generate a rule base on the individuals chromosomes
         auto rulesEngine = new RulesEngine();
         auto ruleBase = rulesEngine->generateRuleBase(this->chromosome);
 
-        auto ingester = new Ingester();
-        auto dataIn = ingester->readFile(DATA_PATH);
-
-        this->fitness = rulesEngine->checkRules(dataIn, ruleBase);
+        this->fitness = rulesEngine->checkRules(dataIn, ruleBase, numData);
         return this->fitness;
     }
 
-    int* chromosome;
+    float* chromosome;
     int size;
     fitnessType fitness;
     fitnessStrategy fitnessStrat;

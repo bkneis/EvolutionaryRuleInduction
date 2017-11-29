@@ -6,7 +6,7 @@
 #define GENETICALGORITHM_INGESTER_H
 
 typedef struct {
-    int* var;
+    float* var;
     int size;
     int group;
 } data;

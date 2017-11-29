@@ -1,6 +1,8 @@
 #include <fstream>
 #include <iostream>
 #include <Ingester.h>
+#include <vector>
+#include <sstream>
 #include "config.h"
 
 data* Ingester::readFile(const char* path) {
@@ -10,13 +12,20 @@ data* Ingester::readFile(const char* path) {
     unsigned j = 0;
     while (std::getline(file, str))
     {
-        data dataItem = { new int[DATA_LENGTH], DATA_LENGTH, 0 };
-        int bit;
-        for (unsigned long i = 0; i < DATA_LENGTH; i++) {
-            bit = (int) str.at(i) - 48; // Convert ascii string to int
-            dataItem.var[i] = bit;
+        std::string buf; // Have a buffer string
+        std::stringstream ss(str); // Insert the string into a stream
+
+        std::vector<std::string> tokens; // Create vector to hold our words
+
+        while (ss >> buf) tokens.push_back(buf);
+
+        data dataItem = { new float[DATA_LENGTH], DATA_LENGTH, 0 };
+
+        for (int i = 0; i < DATA_LENGTH; i++) {
+            dataItem.var[i] = std::stof(tokens.at(i));
         }
-        dataItem.group = (int) str.at(DATA_LENGTH + 1) - 48; // Get the class value
+
+        dataItem.group = stoi(tokens.at(DATA_LENGTH)); // Get the class value
         dataIn[j] = dataItem;
         j++;
     }

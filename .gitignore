@@ -2,3 +2,4 @@
 cmake-build-debug/
 explorer/.ipynb_checkpoints/*
 results/*
+explorer/.ipynb_checkpoints
