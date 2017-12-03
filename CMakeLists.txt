@@ -3,7 +3,7 @@ project(GeneticAlgorithm)
 
 set(CMAKE_CXX_STANDARD 17)
 set(HEADER_FOLDER ./include)
-set(SOURCE_FILES src/main.cpp src/Ingester.cpp src/RulesEngine.cpp)
+set(SOURCE_FILES src/main.cpp src/Ingester.cpp src/RulesEngine.cpp src/IEvaluation.h src/FPRuleEvaluation.h include/Environment.h include/Config.h)
 
 include_directories(${HEADER_FOLDER})
 add_executable(GeneticAlgorithm
@@ -13,4 +13,7 @@ add_executable(GeneticAlgorithm
         ${HEADER_FOLDER}/Population.h
         ${HEADER_FOLDER}/RulesEngine.h
         ${HEADER_FOLDER}/utils.h
-        ${HEADER_FOLDER}/Individual.h)
+        ${HEADER_FOLDER}/Individual.h
+        src/IEvaluation.h
+        src/FPRuleEvaluation.h
+        include/Config.h)
