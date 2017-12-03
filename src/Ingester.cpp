@@ -3,7 +3,6 @@
 #include <Ingester.h>
 #include <vector>
 #include <sstream>
-#include "config.h"
 
 data* Ingester::readFile(const char* path) {
     std::ifstream file(path);

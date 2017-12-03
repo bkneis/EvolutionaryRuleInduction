@@ -2,7 +2,7 @@
 #define GENETICALGORITHM_RULEEVALUATION_H
 
 
-#include <Individual.h>
+#include <GA/Individual.h>
 #include "IEvaluation.h"
 
 template <typename fitnessType>
@@ -14,7 +14,7 @@ public:
         this->rulesEngine = rulesEngine;
     }
 
-    int calculateFitness(Individual<fitnessType>* individual, data* dataIn) override {
+    int calculateFitness(GA::Individual<fitnessType>* individual, data* dataIn) override {
         auto rules = rulesEngine->generateRuleBase(individual->getChromosomes());
         return rulesEngine->checkRules(dataIn, rules, 1600);
     }

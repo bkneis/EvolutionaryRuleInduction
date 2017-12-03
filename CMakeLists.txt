@@ -1,19 +1,31 @@
 cmake_minimum_required(VERSION 3.8)
-project(GeneticAlgorithm)
 
-set(CMAKE_CXX_STANDARD 17)
-set(HEADER_FOLDER ./include)
-set(SOURCE_FILES src/main.cpp src/Ingester.cpp src/RulesEngine.cpp src/IEvaluation.h src/FPRuleEvaluation.h include/Environment.h include/Config.h)
+project(EvolvingRuleInductionSystem)
 
-include_directories(${HEADER_FOLDER})
-add_executable(GeneticAlgorithm
+set(CMAKE_CXX_STANDARD 11)
+
+set(HEADER_DIR ./include)
+
+set(SOURCE_DIR ./src)
+
+set(GA_HEADER_DIR ./include/GA)
+
+set(SOURCE_FILES
+        ${SOURCE_DIR}/main.cpp
+        ${SOURCE_DIR}/Ingester.cpp
+        ${SOURCE_DIR}/RulesEngine.cpp
+        ${HEADER_DIR}/IEvaluation.h
+        ${HEADER_DIR}/FPRuleEvaluation.h)
+
+set(GA_SOURCE_FILES
+        ${GA_HEADER_DIR}/Population.h
+        ${GA_HEADER_DIR}/utils.h
+        ${GA_HEADER_DIR}/Individual.h
+        ${GA_HEADER_DIR}/Config.h
+        ${GA_HEADER_DIR}/Environment.h)
+
+include_directories(${HEADER_DIR})
+
+add_executable(eris
         ${SOURCE_FILES}
-        ${HEADER_FOLDER}/config.h
-        ${HEADER_FOLDER}/Ingester.h
-        ${HEADER_FOLDER}/Population.h
-        ${HEADER_FOLDER}/RulesEngine.h
-        ${HEADER_FOLDER}/utils.h
-        ${HEADER_FOLDER}/Individual.h
-        src/IEvaluation.h
-        src/FPRuleEvaluation.h
-        include/Config.h)
+        ${GA_SOURCE_FILES})

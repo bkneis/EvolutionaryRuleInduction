@@ -1,7 +1,7 @@
 #ifndef GENETICALGORITHM_EVALUATION_H
 #define GENETICALGORITHM_EVALUATION_H
 
-#include <Individual.h>
+#include <GA/Individual.h>
 
 /**
  * Interface for evaluation object to implement to be passed to the GA environment
@@ -11,7 +11,7 @@ template <typename fitnessType>
 class IEvaluation {
 
 public:
-    virtual int calculateFitness(Individual<fitnessType>* individual, data* dataIn) = 0;
+    virtual int calculateFitness(GA::Individual<fitnessType>* individual, data* dataIn) = 0;
 
 };
 

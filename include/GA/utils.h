@@ -19,7 +19,7 @@ inline T getRandomNumber(int min, int max) {
  * Create a results file to save the fitness values to per generation. Then return the file path.
  * @return path
  */
-inline std::string createResultsFile(Config* conf) {
+inline std::string createResultsFile(GA::Config* conf) {
     // Create the results file and enter the configuration values
     std::ofstream resultsFile;
     time_t now = time(0);
