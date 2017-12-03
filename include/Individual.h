@@ -17,13 +17,14 @@ class Individual {
 
 public:
 
-    Individual(int size, fitnessStrategy strategy) {
+    Individual(int size, fitnessStrategy strategy, Config* conf) {
         this->chromosome = new float[size];
         this->fitnessStrat = strategy;
         this->size = size;
+        this->conf = conf;
         for (int i = 0; i < size; i++) {
             // If it's the last bit, ensure it is not a wildcard
-            if ((i + 1) % (DATA_LENGTH * 2 + 1) == 0) {
+            if ((i + 1) % (conf->DATA_LENGTH * 2 + 1) == 0) {
                 this->chromosome[i] = getRandomNumber(0, 1);
             } else {
                 this->chromosome[i] = ((float) rand() / (RAND_MAX));
@@ -40,23 +41,12 @@ public:
         }
     }
 
-    void calcFitness(data* dataIn, int numData = NUMBER_OF_DATA) {
-        switch (this->fitnessStrat) {
-            case (COUNTING_ONES):
-                this->getFitnessCountingOnes();
-            case (SQUARED):
-                this->getFitnessSquared();
-            default:
-                this->getFitnessRules(dataIn, numData);
-        }
-    }
-
     int getFitness(data* dataIn) {
         return this->fitness;
     }
 
     void crossover(Individual<fitnessType>* partner) {
-        int point = getRandomNumber(0, NUMBER_OF_CHROMOSOMES - 1);
+        int point = getRandomNumber(0, conf->NUMBER_OF_CHROMOSOMES - 1);
         auto partnerChromosomes = partner->getChromosomes();
         for (int i = point; i < this->size; i++) {
             float tempBit = this->chromosome[i];
@@ -66,13 +56,14 @@ public:
         partner->setChromosomes(partnerChromosomes);
     }
 
+    // todo pass this like fitness func
     void mutate() {
-        for (int i = 0; i < NUMBER_OF_CHROMOSOMES; i++) {
-            if (getRandomNumber(1, 1000) <= PROBABILITY_OF_MUTATION) {
-                if ((i + 1) % (DATA_LENGTH * 2 + 1) == 0) {
+        for (int i = 0; i < conf->NUMBER_OF_CHROMOSOMES; i++) {
+            if (getRandomNumber(1, 1000) <= conf->PROBABILITY_OF_MUTATION) {
+                if ((i + 1) % (conf->DATA_LENGTH * 2 + 1) == 0) {
                     this->chromosome[i] = 1 - this->chromosome[i];
                 } else {
-                    float randomChange = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / DATA_STEP));
+                    float randomChange = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 0.1));
 
                     if (getRandomNumber(0, 1) == 0) {
                         this->chromosome[i] -= randomChange;
@@ -132,19 +123,11 @@ private:
         return this->fitness;
     }
 
-    int getFitnessRules(data* dataIn, int numData) {
-        // Generate a rule base on the individuals chromosomes
-        auto rulesEngine = new RulesEngine();
-        auto ruleBase = rulesEngine->generateRuleBase(this->chromosome);
-
-        this->fitness = rulesEngine->checkRules(dataIn, ruleBase, numData);
-        return this->fitness;
-    }
-
     float* chromosome;
     int size;
     fitnessType fitness;
     fitnessStrategy fitnessStrat;
+    Config* conf;
 };
 
 

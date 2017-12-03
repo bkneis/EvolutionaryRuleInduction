@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include "Individual.h"
+#include "../src/IEvaluation.h"
 
 template <typename fitnessType = int>
 class Population {
@@ -16,11 +17,17 @@ public:
         this->dataIn = dataIn;
     }
 
+    Population(data* dataIn, IEvaluation<fitnessType>* evaluation, Config* conf) {
+        this->dataIn = dataIn;
+        this->evaluation = evaluation;
+        this->conf = conf;
+    }
+
     std::vector<Individual<fitnessType>*> individuals;
 
     void generate(int size) {
         for (int i = 0; i < size; i++) {
-            this->individuals.push_back(new Individual<fitnessType>(NUMBER_OF_CHROMOSOMES, RULES));
+            this->individuals.push_back(new Individual<fitnessType>(conf->NUMBER_OF_CHROMOSOMES, RULES, conf));
         }
         this->calcFitness();
     }
@@ -33,41 +40,19 @@ public:
         }
     }
 
-//    Population* selectParents() {
-//        auto tempPopulation = new Population<fitnessType>();
-//
-//        for (int i = 0; i < SIZE_OF_POPULATION; i++) {
-//            auto parent1 = this->individuals.at(getRandomNumber<unsigned long> (0, SIZE_OF_POPULATION - 1));
-//            auto parent2 = this->individuals.at(getRandomNumber<unsigned long> (0, SIZE_OF_POPULATION - 1));
-//
-//            auto clonedParent = new Individual<unsigned long>(NUMBER_OF_CHROMOSOMES, RULES);
-//            auto parentChromosomes = new int[NUMBER_OF_CHROMOSOMES];
-//
-//            if (parent1->getFitness() >= parent2->getFitness()) {
-//                memcpy(parentChromosomes, parent1->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(int));
-//            } else {
-//                memcpy(parentChromosomes, parent2->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(int));
-//            }
-//
-//            clonedParent->setChromosomes(parentChromosomes);
-//            tempPopulation->addIndividual(clonedParent);
-//        }
-//        return tempPopulation;
-//    }
-
     Population* selectParents() {
-        auto tempPopulation = new Population<fitnessType>(this->dataIn);
+        auto tempPopulation = new Population<fitnessType>(this->dataIn, this->evaluation, conf);
 
-        for (int i = 0; i < SIZE_OF_POPULATION; i++) {
+        for (int i = 0; i < conf->SIZE_OF_POPULATION; i++) {
 
             std::vector<Individual<fitnessType>*> tournament;
 
-            for (int j = 0; j < TOURNAMENT_SIZE; j++) {
-                tournament.push_back(this->individuals.at(getRandomNumber<unsigned long> (0, SIZE_OF_POPULATION - 1)));
+            for (int j = 0; j < conf->TOURNAMENT_SIZE; j++) {
+                tournament.push_back(this->individuals.at(getRandomNumber<unsigned long> (0, conf->SIZE_OF_POPULATION - 1)));
             }
 
-            auto clonedParent = new Individual<unsigned long>(NUMBER_OF_CHROMOSOMES, RULES);
-            auto parentChromosomes = new float[NUMBER_OF_CHROMOSOMES];
+            auto clonedParent = new Individual<unsigned long>(conf->NUMBER_OF_CHROMOSOMES, RULES, conf);
+            auto parentChromosomes = new float[conf->NUMBER_OF_CHROMOSOMES];
 
             auto best = tournament.at(0);
 
@@ -77,35 +62,13 @@ public:
                 }
             }
 
-            memcpy(parentChromosomes, best->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(float));
+            memcpy(parentChromosomes, best->getChromosomes(), conf->NUMBER_OF_CHROMOSOMES * sizeof(float));
 
             clonedParent->setChromosomes(parentChromosomes);
             tempPopulation->addIndividual(clonedParent);
         }
         return tempPopulation;
     }
-
-//    Population* selectParents() {
-//        auto tempPopulation = new Population<fitnessType>(this->dataIn);
-//
-//        for (int i = 0; i < SIZE_OF_POPULATION; i++) {
-//            auto parent1 = this->individuals.at(getRandomNumber<unsigned long> (0, SIZE_OF_POPULATION - 1));
-//            auto parent2 = this->individuals.at(getRandomNumber<unsigned long> (0, SIZE_OF_POPULATION - 1));
-//
-//            auto clonedParent = new Individual<unsigned long>(NUMBER_OF_CHROMOSOMES, RULES);
-//            auto parentChromosomes = new float[NUMBER_OF_CHROMOSOMES];
-//
-//            if (parent1->getFitness(this->dataIn) >= parent2->getFitness(this->dataIn)) {
-//                memcpy(parentChromosomes, parent1->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(float));
-//            } else {
-//                memcpy(parentChromosomes, parent2->getChromosomes(), NUMBER_OF_CHROMOSOMES * sizeof(float));
-//            }
-//
-//            clonedParent->setChromosomes(parentChromosomes);
-//            tempPopulation->addIndividual(clonedParent);
-//        }
-//        return tempPopulation;
-//    }
 
     Population* mutate() {
         for (auto &individual: this->individuals) {
@@ -116,7 +79,7 @@ public:
 
     Population* crossover() {
         for (unsigned long i = 0; i < this->individuals.size() - 2; i += 2) {
-            if (getRandomNumber(1, 100) <= PROBABILITY_OF_CROSSOVER) {
+            if (getRandomNumber(1, 100) <= conf->PROBABILITY_OF_CROSSOVER) {
                 auto parent1 = this->individuals.at(i);
                 auto parent2 = this->individuals.at(i + 1);
                 parent1->crossover(parent2);
@@ -143,14 +106,14 @@ public:
             std::cout << "The best individual in the population has fitness " << this->getMaxFitness() << "\n";
             std::cout << "The best individual's chromosome is \n";
             auto best = this->getFitestIndividual()->getChromosomes();
-            for (int i = 0; i < NUMBER_OF_CHROMOSOMES; i++) {
-                if ((i + 1) % (DATA_LENGTH * 2 + 1) == 0) {
+            for (int i = 0; i < conf->NUMBER_OF_CHROMOSOMES; i++) {
+                if ((i + 1) % (conf->DATA_LENGTH * 2 + 1) == 0) {
                     std::cout << " = ";
                     // resultsFile << " = ";
                 }
                 std::cout << best[i] << " ";
                 // resultsFile << best[i] << " ";
-                if ((i + 1) % (DATA_LENGTH * 2 + 1) == 0) {
+                if ((i + 1) % (conf->DATA_LENGTH * 2 + 1) == 0) {
                     std::cout << "\n";
                     // resultsFile << "\n";
                 }
@@ -177,7 +140,9 @@ public:
     Population* calcFitness() {
         for (unsigned long i = 0; i < this->individuals.size(); i++) {
             auto individual = this->individuals.at(i);
-            individual->calcFitness(this->dataIn);
+            int fitness = evaluation->calculateFitness(individual, this->dataIn);
+            individual->setFitness(fitness);
+            // individual->calcFitness(this->dataIn);
         }
         return this;
     }
@@ -231,7 +196,7 @@ public:
         auto fittestChromosomes = new float[size];
         int fitness = fittestIndividual->getFitness(this->dataIn);
         memcpy(fittestChromosomes, fittestIndividual->getChromosomes(), size * sizeof(float));
-        fittestIndividual = new Individual<fitnessType> (size, fittestIndividual->getFitnessStrategy());
+        fittestIndividual = new Individual<fitnessType> (size, fittestIndividual->getFitnessStrategy(), conf);
         fittestIndividual->setChromosomes(fittestChromosomes);
         fittestIndividual->setFitness(fitness);
         return fittestIndividual;
@@ -242,6 +207,8 @@ private:
     int maxFitness;
     int meanFitness;
     data* dataIn;
+    IEvaluation<fitnessType>* evaluation;
+    Config* conf;
 
 };
 
