@@ -17,10 +17,11 @@ namespace GA {
 
     public:
 
-        Environment(Config* conf, RulesEngine* rulesEngine, IEvaluation<fitnessType>* evaluation) {
+        Environment(Config* conf, RulesEngine* rulesEngine, IEvaluation<fitnessType>* evaluation, IMutatable<fitnessType>* mutator) {
             this->conf = conf;
             this->rulesEngine = rulesEngine;
             this->evaluation = evaluation;
+            this->mutator = mutator;
         }
 
         Individual<fitnessType>* run() {
@@ -56,7 +57,7 @@ namespace GA {
                 auto testData = ingester->readFile(ssTestPath.str().c_str());
 
                 // Create main population that we will be generating
-                auto population = new Population<unsigned long>(trainData, evaluation, conf);
+                auto population = new Population<unsigned long>(trainData, evaluation, conf, mutator);
 
                 Individual<unsigned long>* fittestIndividual;
 
@@ -90,6 +91,7 @@ namespace GA {
         struct Config* conf;
         RulesEngine* rulesEngine;
         IEvaluation<fitnessType>* evaluation;
+        IMutatable<fitnessType>* mutator;
 
     };
 

@@ -10,22 +10,23 @@ set(SOURCE_DIR ./src)
 
 set(GA_HEADER_DIR ./include/GA)
 
-set(SOURCE_FILES
-        ${SOURCE_DIR}/main.cpp
-        ${SOURCE_DIR}/Ingester.cpp
-        ${SOURCE_DIR}/RulesEngine.cpp
-        ${HEADER_DIR}/IEvaluation.h
-        ${HEADER_DIR}/FPRuleEvaluation.h)
-
 set(GA_SOURCE_FILES
+        ${GA_HEADER_DIR}/IEvaluation.h
         ${GA_HEADER_DIR}/Population.h
         ${GA_HEADER_DIR}/utils.h
         ${GA_HEADER_DIR}/Individual.h
         ${GA_HEADER_DIR}/Config.h
-        ${GA_HEADER_DIR}/Environment.h)
+        ${GA_HEADER_DIR}/Environment.h
+        ${GA_HEADER_DIR}/IMutatable.h)
+
+set(SOURCE_FILES
+        ${SOURCE_DIR}/main.cpp
+        ${SOURCE_DIR}/Ingester.cpp
+        ${SOURCE_DIR}/Ingester.cpp
+        ${SOURCE_DIR}/RulesEngine.cpp
+        ${HEADER_DIR}/FPRuleEvaluation.h
+        ${HEADER_DIR}/RuleMutator.h)
 
 include_directories(${HEADER_DIR})
 
-add_executable(eris
-        ${SOURCE_FILES}
-        ${GA_SOURCE_FILES})
+add_executable(eris ${SOURCE_FILES} ${GA_SOURCE_FILES})

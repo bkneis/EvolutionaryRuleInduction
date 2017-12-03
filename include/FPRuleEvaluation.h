@@ -3,10 +3,10 @@
 
 
 #include <GA/Individual.h>
-#include "IEvaluation.h"
+#include "GA/IEvaluation.h"
 
 template <typename fitnessType>
-class FPRuleEvaluation: public IEvaluation<fitnessType> {
+class FPRuleEvaluation: public GA::IEvaluation<fitnessType> {
 
 public:
 

@@ -7,6 +7,7 @@
 #include <iostream>
 #include "Individual.h"
 #include "IEvaluation.h"
+#include "IMutatable.h"
 
 namespace GA {
 
@@ -19,10 +20,11 @@ namespace GA {
             this->dataIn = dataIn;
         }
 
-        Population(data* dataIn, IEvaluation<fitnessType>* evaluation, Config* conf) {
+        Population(data* dataIn, IEvaluation<fitnessType>* evaluation, Config* conf, IMutatable<fitnessType>* mutator) {
             this->dataIn = dataIn;
             this->evaluation = evaluation;
             this->conf = conf;
+            this->mutator = mutator;
         }
 
         std::vector<Individual<fitnessType>*> individuals;
@@ -43,7 +45,7 @@ namespace GA {
         }
 
         Population* selectParents() {
-            auto tempPopulation = new Population<fitnessType>(this->dataIn, this->evaluation, conf);
+            auto tempPopulation = new Population<fitnessType>(this->dataIn, this->evaluation, conf, mutator);
 
             for (int i = 0; i < conf->SIZE_OF_POPULATION; i++) {
 
@@ -74,7 +76,7 @@ namespace GA {
 
         Population* mutate() {
             for (auto &individual: this->individuals) {
-                individual->mutate();
+                mutator->mutate(individual, conf);
             }
             return this;
         }
@@ -211,6 +213,7 @@ namespace GA {
         data* dataIn;
         IEvaluation<fitnessType>* evaluation;
         Config* conf;
+        IMutatable<fitnessType>* mutator;
 
     };
 
