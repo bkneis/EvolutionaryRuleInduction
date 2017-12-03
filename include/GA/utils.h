@@ -19,7 +19,7 @@ inline T getRandomNumber(int min, int max) {
  * Create a results file to save the fitness values to per generation. Then return the file path.
  * @return path
  */
-inline std::string createResultsFile() {
+inline std::string createResultsFile(GA::Config* conf) {
     // Create the results file and enter the configuration values
     std::ofstream resultsFile;
     time_t now = time(0);
@@ -29,11 +29,11 @@ inline std::string createResultsFile() {
     resultsFile.open(path.str(), std::ios_base::app);
 
     if (resultsFile.is_open()) {
-        resultsFile << NUMBER_OF_GENERATIONS << ","
-                    << NUMBER_OF_CHROMOSOMES << ","
-                    << SIZE_OF_POPULATION << ","
-                    << PROBABILITY_OF_CROSSOVER << ","
-                    << PROBABILITY_OF_MUTATION;
+        resultsFile << conf->NUMBER_OF_GENERATIONS << ","
+                    << conf->NUMBER_OF_CHROMOSOMES << ","
+                    << conf->SIZE_OF_POPULATION << ","
+                    << conf->PROBABILITY_OF_CROSSOVER << ","
+                    << conf->PROBABILITY_OF_MUTATION;
 
         resultsFile.close();
         return path.str();

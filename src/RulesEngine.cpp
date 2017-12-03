@@ -1,6 +1,5 @@
 #include <iostream>
 #include <RulesEngine.h>
-#include "config.h"
 
 rule *RulesEngine::generateRuleBase(float* chromosome) {
     auto ruleBase = new rule[NUM_RULES];
@@ -10,20 +9,10 @@ rule *RulesEngine::generateRuleBase(float* chromosome) {
         for (int j = 0; j < DATA_LENGTH * 2; j++) {
             condition[j] = chromosome[j + offset];
         }
-        rule newRule = { condition, DATA_LENGTH * 2, chromosome[DATA_LENGTH * 2 + offset] };
+        rule newRule = {condition, DATA_LENGTH * 2, static_cast<int>(chromosome[DATA_LENGTH * 2 + offset])};
         ruleBase[i] = newRule;
         offset += DATA_LENGTH * 2 + 1;
     }
-//    for (int k = 0; k < NUMBER_OF_CHROMOSOMES; k++) {
-//        std::cout << "k: " << k << " " << chromosome[k] << "\n";
-//    }
-//    for (int i = 0; i < NUM_RULES; i++) {
-//        std::cout << i << ": ";
-//        for (int j = 0; j < DATA_LENGTH * 2; j++) {
-//            std::cout << ruleBase[i].condition[j] << " ";
-//        }
-//        std::cout << "  " << ruleBase[i].output << " " << ruleBase[i].size << "\n";
-//    }
     return ruleBase;
 }
 
